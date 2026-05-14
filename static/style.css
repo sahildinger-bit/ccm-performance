@@ -101,3 +101,21 @@ th{text-align:left;color:var(--gold);font-size:13px}
 .search-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .search-row input,.search-row select{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#0f1014;color:var(--text);min-width:220px}
 .search-row button{padding:10px 14px;border-radius:12px;border:0;background:var(--gold);color:#111;font-weight:700;cursor:pointer}
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    table 
+        display: block;
+        overflow-x: auto;
+    }
+
+    form {
+        width: 100%;
+    }
+}
