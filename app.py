@@ -803,10 +803,9 @@ def vehicle_edit(vehicle_id):
 
 @app.route("/mobile")
 def mobile():
-   return render_template("mobile.html")
-   
+    return render_template("mobile.html")
+
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
-
-
