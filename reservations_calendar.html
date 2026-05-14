@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 style="color:#ffd000;font-size:34px;">Verfügbarkeitskalender</h1>
+<p>Übersicht der Verfügbarkeit aller Fahrzeuge.</p>
+<p>Grün = Frei &nbsp; | &nbsp; Gelb = Reserviert &nbsp; | &nbsp; Rot = Gebucht</p>
+
+<form method="get" action="/calendar" style="display:flex;gap:25px;align-items:end;background:#151515;border:1px solid #333;border-radius:12px;padding:18px;margin:20px 0;">
+  <div>
+    <label>Fahrzeug</label><br>
+    <select name="vehicle_id" style="padding:12px;background:#222;color:white;border-radius:8px;">
+      {% for v in vehicles %}
+      <option value="{{ v['id'] }}" {% if selected_vehicle and v['id'] == selected_vehicle['id'] %}selected{% endif %}>{{ v['name'] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label>Zeitraum Start</label><br>
+    <input type="date" name="start" value="{{ start_s }}" style="padding:12px;background:#222;color:white;border-radius:8px;">
+  </div>
+
+  <div>
+    <label>Zeitraum Ende</label><br>
+    <input type="date" name="end" value="{{ end_s }}" style="padding:12px;background:#222;color:white;border-radius:8px;">
+  </div>
+
+  <button style="padding:12px 20px;border-radius:8px;">Anzeigen</button>
+</form>
+
+<table style="width:100%;border-collapse:collapse;background:#111;color:white;">
+<tr style="background:#181818;color:#ffd000;">
+  <th style="padding:14px;">Datum</th>
+  <th>Tag</th>
+  <th>{{ selected_vehicle['name'] if selected_vehicle else 'Fahrzeug' }}<br><small>{{ selected_vehicle['plate'] if selected_vehicle and 'plate' in selected_vehicle.keys() else '' }}</small></th>
+</tr>
+
+{% for d in days %}
+<tr>
+  <td style="padding:14px;border:1px solid #333;">{{ d.date_de }}</td>
+  <td style="border:1px solid #333;">{{ d.day }}</td>
+  <td style="border:1px solid #333;text-align:center;padding:18px;font-weight:bold;
+  {% if d.color == 'free' %}background:#24832f;{% elif d.color == 'reserved' %}background:#e0bd00;{% else %}background:#a91518;{% endif %}">
+    {{ d.status }}{% if d.customer %}<br>{{ d.customer }}{% endif %}
+  </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Schäden</h1>
+<div class="grid two">
+  <section class="panel">
+    <h2>Neuer Schaden</h2>
+    <form method="post" class="form">
+      <label>Datum<input name="report_date" type="date" required></label>
+      <label>Fahrzeug
+        <select name="vehicle_id" required>
+          {% for v in vehicles %}<option value="{{ v.id }}">{{ v.name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>Kunde
+        <select name="customer_id">
+          <option value="">-</option>
+          {% for c in customers %}<option value="{{ c.id }}">{{ c.full_name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>Beschreibung<input name="description" required></label>
+      <label>Ort am Fahrzeug<input name="location_on_vehicle"></label>
+      <label>Kosten<input name="cost" type="number" step="0.01"></label>
+      <label>Datei Link<input name="file_link"></label>
+      <label>Status
+        <select name="status">
+          <option>offen</option>
+          <option>in Bearbeitung</option>
+          <option>erledigt</option>
+        </select>
+      </label>
+      <label>Notiz<input name="note"></label>
+      <button type="submit">Speichern</button>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Schadensliste</h2>
+    <table>
+      <tr><th>Datum</th><th>Fahrzeug</th><th>Kunde</th><th>Schaden</th><th>Kosten</th><th>Status</th></tr>
+      {% for row in items %}
+      <tr>
+        <td>{{ row.report_date }}</td>
+        <td>{{ row.vehicle_name }}</td>
+        <td>{{ row.customer_name }}</td>
+        <td>{{ row.description }}</td>
+        <td>{{ "%.2f"|format(row.cost) }} €</td>
+        <td>{{ row.status }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</div>
+{% endblock %}

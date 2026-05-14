@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.cal-title{color:#ffd400;font-size:34px;font-weight:900;margin-bottom:8px}
+.cal-sub{color:#ddd;margin-bottom:10px}
+.cal-legend{margin-bottom:20px;color:#fff}
+.cal-card{background:#0f0f0f;border:1px solid #2a2a2a;border-radius:16px;padding:18px;margin-bottom:22px}
+.cal-form{display:grid;grid-template-columns:1.4fr 1fr 1fr auto auto;gap:16px;align-items:end}
+.cal-form label{color:#ffd400;font-weight:700;font-size:13px}
+.cal-form select,.cal-form input{width:100%;background:#191919;color:white;border:1px solid #333;border-radius:10px;padding:12px}
+.cal-form button,.cal-link{background:#222;color:white;border:1px solid #444;border-radius:10px;padding:12px 18px;text-decoration:none;font-weight:700}
+.cal-table{width:100%;border-collapse:collapse;border-radius:16px;overflow:hidden;background:#080808}
+.cal-table th{background:#131313;color:#ffd400;padding:14px;text-align:left;border:1px solid #292929}
+.cal-table td{padding:16px 18px;border:1px solid #292929;color:white}
+.status{text-align:center;font-weight:700}
+.free{background:#2f8f37}
+.booked{background:#bd121f}
+.reserved{background:#e0b500;color:#111!important}
+.small{display:block;font-size:12px;margin-top:3px;opacity:.95}
+.month-row td{background:#1a1a1a!important;color:#ffd400!important;font-size:18px;font-weight:900}
+.bottom-legend{display:flex;gap:28px;margin-top:18px;color:white}
+.box{width:14px;height:14px;border-radius:4px;display:inline-block;margin-right:8px}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-bottom:12px}
+@media(max-width:900px){.cal-form{grid-template-columns:1fr}}
+</style>
+
+<div class="actions">
+  <a class="cal-link" href="/reservations">Zur Reservierungsübersicht</a>
+</div>
+
+<h1 class="cal-title">Verfügbarkeitskalender</h1>
+<div class="cal-sub">Übersicht der Verfügbarkeit aller Fahrzeuge.</div>
+<div class="cal-legend">Grün = Frei &nbsp; | &nbsp; Gelb = Reserviert &nbsp; | &nbsp; Rot = Gebucht</div>
+
+<div class="cal-card">
+  <form method="get" class="cal-form">
+    <div>
+      <label>Fahrzeug</label>
+      <select name="vehicle_id">
+        {% for v in vehicles %}
+          <option value="{{ v['id'] }}" {% if selected_vehicle and selected_vehicle['id'] == v['id'] %}selected{% endif %}>
+            {{ v['name'] }}{% if v['plate'] is defined and v['plate'] %} — {{ v['plate'] }}{% endif %}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label>Startdatum</label>
+      <input type="date" name="start" value="{{ start or '2026-04-30' }}">
+    </div>
+
+    <div>
+      <label>Enddatum</label>
+      <input type="date" name="end" value="{{ end or '2026-05-14' }}">
+    </div>
+
+    <button type="submit">Anzeigen</button>
+    <a class="cal-link" href="/calendar">Heute</a>
+  </form>
+</div>
+
+<table class="cal-table">
+  <thead>
+    <tr>
+      <th style="width:170px">Datum</th>
+      <th style="width:80px">Tag</th>
+      <th>
+        {% if selected_vehicle %}
+          {{ selected_vehicle['name'] }}
+          {% if selected_vehicle['plate'] is defined and selected_vehicle['plate'] %}
+            <span class="small">{{ selected_vehicle['plate'] }}</span>
+          {% endif %}
+        {% else %}
+          Fahrzeug
+        {% endif %}
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+
+    {% if days %}
+      {% for d in days %}
+        
+
+        {% set st = d['status'] if d['status'] else 'Frei' %}
+        <tr>
+          <td>{{ d['date_de'] or d['date'] }}</td>
+          <td>{{ d['day_name'] or d['tag'] }}</td>
+          <td class="status {% if st == 'Gebucht' %}booked{% elif st == 'Reserviert' %}reserved{% else %}free{% endif %}">
+            {{ st }}
+            {% if d['customer_name'] %}
+              <span class="small">{{ d['customer_name'] }}</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="3" style="text-align:center;padding:30px;color:#aaa">
+          Kein Zeitraum geladen. Bitte Startdatum und Enddatum auswählen und auf „Anzeigen“ klicken.
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<div class="bottom-legend">
+  <span><span class="box free"></span>Frei</span>
+  <span><span class="box reserved"></span>Reserviert</span>
+  <span><span class="box booked"></span>Gebucht</span>
+</div>
+
+{% endblock %}

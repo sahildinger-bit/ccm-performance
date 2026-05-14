@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Buchungen</h1>
+<div class="grid two">
+  <section class="panel">
+    <h2>{{ "Buchung bearbeiten" if edit_item else "Neue Buchung" }}</h2>
+    <form method="post" class="form" action="{{ url_for('booking_edit', booking_id=edit_item.id) if edit_item else url_for('bookings') }}">
+      <label>Fahrzeug
+        <select name="vehicle_id" required>
+          {% for v in vehicles %}<option value="{{ v.id }}" {{ 'selected' if edit_item and edit_item.vehicle_id == v.id else '' }}>{{ v.name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>Kunde
+        <select name="customer_id" required>
+          {% for c in customers %}<option value="{{ c.id }}" {{ 'selected' if edit_item and edit_item.customer_id == c.id else '' }}>{{ c.full_name }}</option>{% endfor %}
+        </select>
+      </label>
+      <label>Startdatum<input name="start_date" type="date" required value="{{ edit_item.start_date if edit_item else '' }}"></label>
+      <label>Abholzeit<input name="pickup_time" type="time" value="{{ edit_item.pickup_time if edit_item else '' }}"></label>
+      <label>Enddatum<input name="end_date" type="date" required value="{{ edit_item.end_date if edit_item else '' }}"></label>
+      <label>Rückgabezeit<input name="return_time" type="time" value="{{ edit_item.return_time if edit_item else '' }}"></label>
+      <label>Sonderpreis (€)<input name="special_price" type="number" step="0.01" value="{{ edit_item.special_price if edit_item and edit_item.special_price is not none else '' }}"></label>
+      <label>Sonderpreis Grund<input name="special_reason" value="{{ edit_item.special_reason if edit_item else '' }}"></label>
+      <label>Mehr-km<input name="extra_km" type="number" step="1" value="{{ edit_item.extra_km if edit_item else '0' }}"></label>
+      <label>Kaution Status
+        <select name="deposit_status">
+          <option value="bezahlt" {{ 'selected' if edit_item and edit_item.deposit_status == 'bezahlt' else '' }}>bezahlt</option>
+          <option value="nicht bezahlt" {{ 'selected' if not edit_item or edit_item.deposit_status != 'bezahlt' else '' }}>nicht bezahlt</option>
+        </select>
+      </label>
+      <label>KM bei Abgabe<input name="pickup_km" type="number" value="{{ edit_item.pickup_km if edit_item and edit_item.pickup_km is not none else '' }}"></label>
+      <label>KM bei Rückgabe<input name="return_km" type="number" value="{{ edit_item.return_km if edit_item and edit_item.return_km is not none else '' }}"></label>
+      <label>Tank bei Abgabe<input name="pickup_fuel" value="{{ edit_item.pickup_fuel if edit_item else '' }}"></label>
+      <label>Tank bei Rückgabe<input name="return_fuel" value="{{ edit_item.return_fuel if edit_item else '' }}"></label>
+      <label>Notiz<input name="note" value="{{ edit_item.note if edit_item else '' }}"></label>
+      <div class="form-actions">
+        <button type="submit">{{ "Änderungen speichern" if edit_item else "Buchung speichern" }}</button>
+        {% if edit_item %}
+        <a class="btn-secondary" href="{{ url_for('bookings') }}">Abbrechen</a>
+        {% endif %}
+      </div>
+    </form>
+  </section>
+  <section class="panel">
+    <h2>Buchungsliste</h2>
+    <table>
+      <tr><th>Nr.</th><th>Auto</th><th>Kunde</th><th>Zeitraum</th><th>Tarif</th><th>Preis</th><th>Aktion</th><th>Vertrag</th></tr>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.contract_no }}</td>
+        <td>{{ item.row.vehicle_name }}</td>
+        <td>{{ item.row.customer_name }}</td>
+        <td>{{ item.row.start_date }}{% if item.row.pickup_time %} {{ item.row.pickup_time }}{% endif %}<br>bis {{ item.row.end_date }}{% if item.row.return_time %} {{ item.row.return_time }}{% endif %}</td>
+        <td>{{ item.calc.tariff }}<br><span class="small">{{ item.calc.days }} Tage</span></td>
+        <td>{{ "%.2f"|format(item.calc.total) }} €</td>
+        <td>
+          <div class="table-actions">
+            <a class="btn-small" href="{{ url_for('booking_edit', booking_id=item.row.id) }}">Bearbeiten</a>
+            <form method="post" action="{{ url_for('booking_delete', booking_id=item.row.id) }}" onsubmit="return confirm('Buchung wirklich löschen?');">
+              <button class="btn-small danger" type="submit">Löschen</button>
+            </form>
+          </div>
+        </td>
+        <td><a href="/contracts/{{ item.row.id }}/pdf" target="_blank">PDF</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</div>
+{% endblock %}
