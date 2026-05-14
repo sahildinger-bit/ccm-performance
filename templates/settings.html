@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Einstellungen</h1>
+<section class="panel">
+  <form method="post" class="form">
+    <label>Firmenname<input name="company_name" value="{{ data.get('company_name','') }}"></label>
+    <label>Adresse<input name="company_address" value="{{ data.get('company_address','') }}"></label>
+    <label>Telefon<input name="company_phone" value="{{ data.get('company_phone','') }}"></label>
+    <label>Basis-Link Verträge<input name="base_contract_url" value="{{ data.get('base_contract_url','') }}"></label>
+    <label>Bearbeitungsgebühr Blitzer (€)<input name="processing_fee" value="{{ data.get('processing_fee','25') }}"></label>
+    <label>Selbstbeteiligung (€)<input name="self_participation" value="{{ data.get('self_participation','2500') }}"></label>
+    <label>Mindestalter Fahrer<input name="minimum_age" value="{{ data.get('minimum_age','21') }}"></label>
+    <label>Führerschein seit (Jahre)<input name="min_license_years" value="{{ data.get('min_license_years','2') }}"></label>
+    <label>Nutzungsgebiet<input name="allowed_area" value="{{ data.get('allowed_area','vereinbarten Gebiet') }}"></label>
+    <button type="submit">Speichern</button>
+  </form>
+</section>
+{% endblock %}

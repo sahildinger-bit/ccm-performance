@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero panel">
+  <div>
+    <div class="hero-kicker">CCM Performance</div>
+    <h1>CCM Performance Software</h1>
+    <p class="muted">Buchungen, Preise, Verträge, Schäden und Fahrzeugstatus in einem System.</p>
+  </div>
+  <img class="hero-logo" src="{{ url_for('static', filename='logo.png') }}" alt="CCM Logo">
+</section>
+<div class="cards">
+  <div class="card"><div class="label">Fahrzeuge</div><div class="value">{{ totals.vehicles }}</div></div>
+  <div class="card"><div class="label">Kunden</div><div class="value">{{ totals.customers }}</div></div>
+  <div class="card"><div class="label">Buchungen</div><div class="value">{{ totals.bookings }}</div></div>
+  <div class="card"><div class="label">Schäden</div><div class="value">{{ totals.damages }}</div></div>
+  <div class="card"><div class="label">Umsatz</div><div class="value">{{ "%.0f"|format(revenue) }} €</div></div>
+  <div class="card"><div class="label">Gewinn</div><div class="value">{{ "%.0f"|format(profit) }} €</div></div>
+</div>
+
+<section class="panel quick-actions">
+  <div class="section-head">
+    <div>
+      <div class="hero-kicker">Schnellzugriff</div>
+      <h2>Was möchtest du als Nächstes machen?</h2>
+    </div>
+  </div>
+  <div class="action-grid">
+    <a class="action-card" href="{{ url_for('bookings') }}">
+      <div class="action-title">Neue Buchung</div>
+      <div class="muted">Auto, Kunde und Zeitraum eintragen</div>
+    </a>
+    <a class="action-card" href="{{ url_for('calendar') }}">
+      <div class="action-title">Kalender prüfen</div>
+      <div class="muted">Sofort sehen, welche Fahrzeuge frei sind</div>
+    </a>
+    <a class="action-card" href="{{ url_for('contracts') }}">
+      <div class="action-title">Verträge öffnen</div>
+      <div class="muted">Vertrag und Rechnung als PDF erzeugen</div>
+    </a>
+    <a class="action-card" href="{{ url_for('settings_view') }}">
+      <div class="action-title">Einstellungen</div>
+      <div class="muted">Kaution, Selbstbeteiligung und Regeln anpassen</div>
+    </a>
+  </div>
+</section>
+
+<div class="grid two">
+  <section class="panel">
+    <h2>Monatsumsatz</h2>
+    <div class="bars">
+      {% for m in month_data %}
+      <div class="bar-row">
+        <div class="bar-label">{{ m.label }}</div>
+        <div class="bar-track"><div class="bar-fill" style="width: {{ m.pct }}%"></div></div>
+        <div class="bar-value">{{ "%.0f"|format(m.value) }} €</div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="panel">
+    <h2>Fahrzeugstatus</h2>
+    <table>
+      <tr><th>Fahrzeug</th><th>Status</th></tr>
+      {% for v in vehicle_status %}
+      <tr>
+        <td>{{ v.name }}</td>
+        <td><span class="badge {{ 'ok' if v.status == 'Frei' else 'warn' }}">{{ v.status }}</span></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</div>
+
+<div class="grid two">
+  <section class="panel">
+    <h2>Letzte Buchungen</h2>
+    <table>
+      <tr><th>Nr.</th><th>Auto</th><th>Kunde</th><th>Tarif</th><th>Preis</th></tr>
+      {% for item in recent %}
+      <tr>
+        <td>{{ item.contract_no }}</td>
+        <td>{{ item.row.vehicle_name }}</td>
+        <td>{{ item.row.customer_name }}</td>
+        <td>{{ item.calc.tariff }}</td>
+        <td>{{ "%.2f"|format(item.calc.total) }} €</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+  <section class="panel">
+    <h2>Auslastung</h2>
+    <table>
+      <tr><th>Fahrzeug</th><th>Buchungen</th></tr>
+      {% for u in util %}
+      <tr>
+        <td>{{ u.name }}</td>
+        <td>{{ u.count }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</div>
+{% endblock %}

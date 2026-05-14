@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Kunden</h1>
+<div class="section-head">
+  <div class="muted">Kunden suchen nach Name, Telefon, E-Mail oder Führerschein.</div>
+</div>
+<div class="panel" style="margin-bottom:18px;">
+  <form method="get" class="search-row">
+    <input name="q" value="{{ q or '' }}" placeholder="Kunde suchen...">
+    <button type="submit">Suchen</button>
+    {% if q %}<a class="btn-secondary" href="{{ url_for('customers') }}">Zurücksetzen</a>{% endif %}
+  </form>
+</div>
+<div class="grid two">
+  <section class="panel">
+    <h2>{{ "Kunde bearbeiten" if edit_item else "Neuer Kunde" }}</h2>
+    <form method="post" class="form" action="{{ url_for('customer_edit', customer_id=edit_item.id) if edit_item else url_for('customers') }}">
+      <label>Vorname<input name="first_name" required value="{{ edit_item.first_name if edit_item else '' }}"></label>
+      <label>Nachname<input name="last_name" required value="{{ edit_item.last_name if edit_item else '' }}"></label>
+      <label>Telefon<input name="phone" value="{{ edit_item.phone if edit_item else '' }}"></label>
+      <label>E-Mail<input name="email" value="{{ edit_item.email if edit_item else '' }}"></label>
+      <label>Adresse<input name="address" value="{{ edit_item.address if edit_item else '' }}"></label>
+      <label>Geburtsdatum<input name="birth_date" type="date" value="{{ edit_item.birth_date if edit_item else '' }}"></label>
+      <label>Führerschein-Nr.<input name="license_no" value="{{ edit_item.license_no if edit_item else '' }}"></label>
+      <label>Führerschein geprüft
+        <select name="license_checked">
+          <option value="Ja" {{ 'selected' if edit_item and edit_item.license_checked == 'Ja' else '' }}>Ja</option>
+          <option value="Nein" {{ 'selected' if not edit_item or edit_item.license_checked != 'Ja' else '' }}>Nein</option>
+        </select>
+      </label>
+      <label>Führerschein Link<input name="license_link" value="{{ edit_item.license_link if edit_item else '' }}"></label>
+      <label>Ausweis Link<input name="id_link" value="{{ edit_item.id_link if edit_item else '' }}"></label>
+      <label>Notiz<input name="note" value="{{ edit_item.note if edit_item else '' }}"></label>
+      <div class="form-actions">
+        <button type="submit">{{ "Änderungen speichern" if edit_item else "Speichern" }}</button>
+        {% if edit_item %}
+        <a class="btn-secondary" href="{{ url_for('customers') }}">Abbrechen</a>
+        {% endif %}
+      </div>
+    </form>
+  </section>
+  <section class="panel">
+    <div class="section-head">
+      <h2>Kundenliste</h2>
+      <div class="muted">{{ items|length }} Kunden</div>
+    </div>
+    <table>
+      <tr><th>Name</th><th>Telefon</th><th>FS geprüft</th><th>Dokumente</th><th>Aktionen</th></tr>
+      {% for row in items %}
+      <tr>
+        <td>{{ row.first_name }} {{ row.last_name }}</td>
+        <td>{{ row.phone or "-" }}</td>
+        <td>{{ row.license_checked }}</td>
+        <td>
+          {% if row.license_link %}<a href="{{ row.license_link }}" target="_blank">FS</a>{% endif %}
+          {% if row.id_link %}{% if row.license_link %} | {% endif %}<a href="{{ row.id_link }}" target="_blank">Ausweis</a>{% endif %}
+          {% if not row.license_link and not row.id_link %}-{% endif %}
+        </td>
+        <td>
+          <div class="table-actions">
+            <a class="btn-small" href="{{ url_for('customer_edit', customer_id=row.id) }}">Bearbeiten</a>
+            <form method="post" action="{{ url_for('customer_delete', customer_id=row.id) }}" onsubmit="return confirm('Kunde wirklich löschen?');">
+              <button class="btn-small danger" type="submit">Löschen</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p class="muted" style="margin-top:12px;">Löschen geht nur, wenn der Kunde noch nicht mit Buchungen oder Schäden verknüpft ist.</p>
+  </section>
+</div>
+{% endblock %}

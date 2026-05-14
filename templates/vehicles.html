@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 style="color:#ffd400">Fahrzeuge</h1>
+
+<div style="display:grid;grid-template-columns:320px 1fr;gap:25px">
+
+<form method="post" style="background:#111;padding:18px;border-radius:16px">
+  <h2 style="color:white">{{ 'Fahrzeug bearbeiten' if edit_item else 'Fahrzeug hinzufügen' }}</h2>
+
+  <label>Fahrzeug</label>
+  <input name="name" value="{{ edit_item['name'] if edit_item else '' }}">
+
+  <label>Kennzeichen</label>
+  <input name="plate" value="{{ edit_item['plate'] if edit_item and 'plate' in edit_item.keys() else '' }}">
+
+  <label>Tag Preis</label>
+  <input name="daily_price" value="{{ edit_item['day_price'] if edit_item and 'day_price' in edit_item.keys() else '' }}">
+
+  <label>4 Tage Preis</label>
+  <input name="four_day_price" value="{{ edit_item['four_day_price'] if edit_item and 'four_day_price' in edit_item.keys() else '' }}">
+
+  <label>Fr-So Preis</label>
+  <input name="weekend_price" value="{{ edit_item['weekend_price'] if edit_item and 'weekend_price' in edit_item.keys() else '' }}">
+
+  <label>Monat Preis</label>
+  <input name="monthly_price" value="{{ edit_item['month_price'] if edit_item and 'month_price' in edit_item.keys() else '' }}">
+
+  <label>Kaution Monat</label>
+  <input name="deposit_short" value="{{ edit_item['deposit'] if edit_item and 'deposit' in edit_item.keys() else '' }}">
+
+  <label>KM Angebote</label>
+  <input name="included_km" value="{{ edit_item['included_km'] if edit_item and 'included_km' in edit_item.keys() else '350' }}">
+
+  <label>Status</label>
+  <select name="status">
+    <option>Frei</option>
+    <option>Reserviert</option>
+    <option>Gebucht</option>
+  </select>
+
+  <label>Farb-Tag</label>
+  <input name="color_tag" value="{{ edit_item['color_tag'] if edit_item and 'color_tag' in edit_item.keys() else '' }}">
+
+  <button type="submit">Speichern</button>
+
+  {% if edit_item %}
+    <a href="/vehicles" style="color:white;margin-left:10px">Abbrechen</a>
+  {% endif %}
+</form>
+
+<div>
+<table>
+<tr>
+  <th>Fahrzeug</th>
+  <th>Tag</th>
+  <th>4 Tage</th>
+  <th>Fr-So</th>
+  <th>Monat</th>
+  <th>Status</th>
+  <th>Aktionen</th>
+</tr>
+
+{% for v in vehicles or items %}
+<tr>
+  <td>{{ v['name'] }}<br>{{ v['plate'] if 'plate' in v.keys() else '' }}</td>
+  <td>{{ v['daily_price'] if 'day_price' in v.keys() else '' }} €</td>
+  <td>{{ v['four_day_price'] if 'four_day_price' in v.keys() else '' }} €</td>
+  <td>{{ v['weekend_price'] if 'weekend_price' in v.keys() else '' }} €</td>
+  <td>{{ v['monthly_price'] if 'month_price' in v.keys() else '' }} €</td>
+  <td>{{ v['status'] if 'status' in v.keys() else 'Frei' }}</td>
+  <td>
+    <a href="/vehicles/edit/{{ v['id'] }}" style="color:#ffd400">Bearbeiten</a>
+
+    <form method="post" action="/vehicles/delete/{{ v['id'] }}" style="display:inline">
+      <button onclick="return confirm('Fahrzeug wirklich löschen?')" style="background:#d6001c;color:white;border:0;border-radius:6px;padding:7px 10px">
+        Löschen
+      </button>
+    </form>
+  </td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+
+<style>
+label{display:block;color:#ffd400;margin-top:10px;font-weight:700}
+input,select{width:100%;padding:10px;background:#1b1b1b;color:white;border:1px solid #333;border-radius:8px}
+button{margin-top:14px;background:#ffd400;border:0;border-radius:8px;padding:10px 18px;font-weight:700}
+table{width:100%;border-collapse:collapse;background:#111;color:white}
+th{color:#ffd400;text-align:left;padding:12px;border:1px solid #333}
+td{padding:12px;border:1px solid #333}
+</style>
+
+{% endblock %}

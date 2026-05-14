@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Verträge</h1>
+<section class="panel">
+  <table>
+    <tr><th>Nr.</th><th>Kunde</th><th>Fahrzeug</th><th>Preis</th><th>QR</th><th>Vertrag</th><th>Rechnung</th></tr>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.contract_no }}</td>
+      <td>{{ item.row.customer_name }}</td>
+      <td>{{ item.row.vehicle_name }}</td>
+      <td>{{ "%.2f"|format(item.calc.total) }} €</td>
+    </tr>
+    {% endfor %}
+  </table>
+</section>
+{% endblock %}
