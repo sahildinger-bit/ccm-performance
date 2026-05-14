@@ -12,3 +12,4 @@ PyPDF2==3.0.1
 qrcode==8.0
 reportlab==4.2.5
 Werkzeug==3.1.7
+gunicorn
