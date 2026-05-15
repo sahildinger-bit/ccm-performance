@@ -875,6 +875,6 @@ def invoice_pdf(booking_id):
 
     return send_file(output, as_attachment=False)
     
-    if __name__ == "__main__":
+ if __name__ == "__main__":
     init_db()
     app.run(debug=True)
