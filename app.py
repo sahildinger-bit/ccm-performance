@@ -857,21 +857,21 @@ name = f"{customer['first_name']} {customer['last_name']}"
 fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
 zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
-write(150, 205, name)
-write(150, 225, customer["address"])
-write(150, 245, customer["phone"])
-write(150, 265, fahrzeug)
-write(150, 285, zeitraum)
+    write(150, 205, name)
+    write(150, 225, customer["address"])
+    write(150, 245, customer["phone"])
+    write(150, 265, fahrzeug)
+    write(150, 285, zeitraum)
 
-write(150, 325, "Vermietung eines Fahrzeugs")
-write(150, 345, "Sonderpreis")
+    write(150, 325, "Vermietung eines Fahrzeugs")
+    write(150, 345, "Sonderpreis")
 
-write(330, 410, f"{netto:.2f} Euro")
-write(330, 435, f"{mwst:.2f} Euro")
-write(330, 465, f"{brutto:.2f} Euro")
+    write(330, 410, f"{netto:.2f} Euro")
+    write(330, 435, f"{mwst:.2f} Euro")
+    write(330, 465, f"{brutto:.2f} Euro")
 
-doc.save(output)
-return send_file(output, as_attachment=False)
+    doc.save(output)
+    return send_file(output, as_attachment=False)
 
 
 @app.route("/mobile")
