@@ -859,6 +859,9 @@ def invoice_pdf(booking_id):
     doc.save(output)
     return send_file(output, as_attachment=False)
 
+@app.route("/app")
+def app_mobile():
+    return render_template("app.html")
 
 @app.route("/mobile")
 def mobile():
