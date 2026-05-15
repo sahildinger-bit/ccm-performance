@@ -835,9 +835,7 @@ def invoice_pdf(booking_id):
 
     def write(x, y, text):
         page.insert_text((x, y), str(text), fontsize=10)
-
-    name = f"{customer['first_name']} {customer['last_name']}"
-    fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
+name = customer["full_name"]    fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
     zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
     write(150, 205, name)
@@ -851,9 +849,8 @@ def invoice_pdf(booking_id):
     write(330, 410, f"{netto:.2f} Euro")
     write(330, 435, f"{mwst:.2f} Euro")
     write(330, 465, f"{brutto:.2f} Euro")
-    write(330, 495, f"{booking['deposit']} Euro")
-
-    write(160, 735, f"CCM-{booking_id:03d}")
+write(330, 495, "Nicht Teil der Rechnung")  
+write(160, 735, f"CCM-{booking_id:03d}")
     write(360, 735, f"CCM-{booking_id:03d}")
     write(500, 735, date.today().strftime("%d.%m.%Y"))
 
