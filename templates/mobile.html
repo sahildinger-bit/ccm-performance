@@ -4,34 +4,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CCM Mobile</title>
   <style>
-    body{margin:0;background:#050505;color:white;font-family:Arial;padding:18px}
-    h1{font-size:26px;margin:10px 0 4px}
-    p{color:#aaa;margin-top:0}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
-    .card{background:#151515;border:1px solid #2a2a2a;border-radius:18px;padding:20px;text-decoration:none;color:white;font-size:22px;font-weight:bold}
-    .small{font-size:14px;color:#aaa;margin-top:8px;font-weight:normal}
-    .bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid #333;display:flex;justify-content:space-around;padding:12px}
-    .bottom a{color:white;text-decoration:none;font-size:13px}
+    body{
+      margin:0;
+      background:radial-gradient(circle at top,#111 0,#030303 65%);
+      color:white;
+      font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+      padding:22px 18px 95px;
+    }
+    .logo{text-align:center;margin:28px 0 45px}
+    .logo .ccm{font-size:42px;font-weight:900;letter-spacing:2px}
+    .logo .perf{color:#caa23a;font-size:22px;font-weight:800;letter-spacing:1px}
+    h1{font-size:34px;margin:0 0 6px}
+    .sub{color:#aaa;font-size:22px;margin-bottom:28px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{
+      background:linear-gradient(145deg,#191919,#0d0d0d);
+      border:1px solid #333;
+      border-radius:24px;
+      padding:24px 18px;
+      min-height:130px;
+      text-decoration:none;
+      color:white;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    .icon{font-size:38px;color:#caa23a;margin-bottom:18px}
+    .title{font-size:24px;font-weight:800;margin-bottom:10px}
+    .text{font-size:17px;color:#aaa;line-height:1.4}
+    .bottom{
+      position:fixed;
+      bottom:0;left:0;right:0;
+      background:rgba(10,10,10,.96);
+      border-top:1px solid #242424;
+      display:flex;
+      justify-content:space-around;
+      padding:13px 0 24px;
+    }
+    .bottom a{
+      color:#aaa;
+      text-decoration:none;
+      font-size:13px;
+      text-align:center;
+    }
+    .bottom .active{color:#caa23a}
+    .bottom span{display:block;font-size:26px;margin-bottom:4px}
   </style>
 </head>
 <body>
-  <h1>CCM Performance</h1>
-  <p>Mobile Verwaltung</p>
+
+  <div class="logo">
+    <div class="ccm">CCM</div>
+    <div class="perf">PERFORMANCE</div>
+  </div>
+
+  <h1>Willkommen</h1>
+  <div class="sub">Mobile Verwaltung</div>
 
   <div class="grid">
-    <a class="card" href="/bookings">📅 Buchungen<div class="small">Buchungen ansehen und bearbeiten</div></a>
-    <a class="card" href="/vehicles">🚗 Fahrzeuge<div class="small">Fahrzeugliste öffnen</div></a>
-    <a class="card" href="/customers">👤 Kunden<div class="small">Kundendaten verwalten</div></a>
-    <a class="card" href="/reservations">📝 Reservierungen<div class="small">Reservierungen prüfen</div></a>
-    <a class="card" href="/calendar">📆 Kalender<div class="small">Termine und Übersicht</div></a>
-    <a class="card" href="/contracts">📄 Verträge<div class="small">PDF-Verträge öffnen</div></a>
+    <a class="card" href="/bookings">
+      <div class="icon">📅</div>
+      <div class="title">Buchungen</div>
+      <div class="text">Buchungen ansehen und verwalten</div>
+    </a>
+
+    <a class="card" href="/vehicles">
+      <div class="icon">🚗</div>
+      <div class="title">Fahrzeuge</div>
+      <div class="text">Fahrzeugliste anzeigen und bearbeiten</div>
+    </a>
+
+    <a class="card" href="/customers">
+      <div class="icon">👤</div>
+      <div class="title">Kunden</div>
+      <div class="text">Kundendaten verwalten</div>
+    </a>
+
+    <a class="card" href="/reservations">
+      <div class="icon">📋</div>
+      <div class="title">Reservierungen</div>
+      <div class="text">Reservierungen prüfen und verwalten</div>
+    </a>
+
+    <a class="card" href="/calendar">
+      <div class="icon">📆</div>
+      <div class="title">Kalender</div>
+      <div class="text">Übersicht und Termine</div>
+    </a>
+
+    <a class="card" href="/contracts">
+      <div class="icon">📄</div>
+      <div class="title">Verträge</div>
+      <div class="text">PDF-Verträge ansehen</div>
+    </a>
   </div>
 
   <div class="bottom">
-    <a href="/mobile">Home</a>
-    <a href="/bookings">Buchungen</a>
-    <a href="/vehicles">Autos</a>
-    <a href="/customers">Kunden</a>
+    <a class="active" href="/mobile"><span>🏠</span>Home</a>
+    <a href="/bookings"><span>📅</span>Buchungen</a>
+    <a href="/vehicles"><span>🚗</span>Fahrzeuge</a>
+    <a href="/customers"><span>👤</span>Kunden</a>
   </div>
+
 </body>
 </html>
