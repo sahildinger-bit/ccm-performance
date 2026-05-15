@@ -833,7 +833,8 @@ def invoice_pdf(booking_id):
     booking_data = dict(booking)
 invoice_no = booking_data.get("invoice_no") or ""
 contract_no = booking_data.get("contract_no") or ""
-invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.%Y")    brutto = float(
+invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.%Y")    
+brutto = float(
         
     booking_data.get("calc_total")
         or booking_data.get("total_price")
@@ -874,8 +875,8 @@ invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.
 
 write(160, 735, invoice_no)
 write(360, 735, contract_no)
-write(500, 735, invoice_date)  
-
+write(500, 735, invoice_date)
+    
     doc.save(output)
 
     return send_file(output, as_attachment=False)
