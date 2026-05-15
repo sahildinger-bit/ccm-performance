@@ -831,20 +831,23 @@ def invoice_pdf(booking_id):
     output = f"/tmp/Rechnung_{booking_id}.pdf"
 booking_data = dict(booking)
 
-    brutto = float(
-        booking_data.get("calc_total")
-        or booking_data.get("total_price")
-        or booking_data.get("price")
-        or booking_data.get("special_price")
-        or 0
-    )
-    netto = round(brutto / 1.19, 2)
-    mwst = round(brutto - netto, 2)
+booking_data = dict(booking)
 
-     doc = fitz.open(template)
-    page = doc[0]
+brutto = float(
+    booking_data.get("calc_total")
+    or booking_data.get("total_price")
+    or booking_data.get("price")
+    or booking_data.get("special_price")
+    or 0
+)
 
-    def write(x, y, text):
+netto = round(brutto / 1.19, 2)
+mwst = round(brutto - netto, 2)
+
+doc = fitz.open(template)
+page = doc[0] 
+
+def write(x, y, text):
         page.insert_text((x, y), str(text), fontsize=10)
 
     name = customer["full_name"]
