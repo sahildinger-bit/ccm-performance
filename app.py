@@ -800,7 +800,6 @@ def vehicle_edit(vehicle_id):
         return redirect("/vehicles")
 
     return render_template("vehicles.html", title="Fahrzeuge", edit_item=vehicle)
-
 @app.route("/invoice/<int:booking_id>")
 @login_required
 def invoice_pdf(booking_id):
@@ -865,7 +864,9 @@ def invoice_pdf(booking_id):
     write(500, 735, date.today().strftime("%d.%m.%Y"))
 
     doc.save(output)
+
     return send_file(output, as_attachment=False)
+
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
