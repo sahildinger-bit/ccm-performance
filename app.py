@@ -826,7 +826,7 @@ def invoice_pdf(booking_id):
     template = "contracts/Rechnung.pdf"
     output = f"/tmp/Rechnung_{booking_id}.pdf"
 
-    brutto = float(booking["price"] or 0)
+    brutto = float(booking["calc_total"] or 0)
     netto = round(brutto / 1.19, 2)
     mwst = round(brutto - netto, 2)
 
