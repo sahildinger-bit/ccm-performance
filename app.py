@@ -870,9 +870,7 @@ write(330, 410, f"{netto:.2f} Euro")
 write(330, 435, f"{mwst:.2f} Euro")
 write(330, 465, f"{brutto:.2f} Euro")
 
-write(160, 735, invoice_no)
-write(360, 735, contract_no)
-write(500, 735, invoice_date)
+
 
 doc.save(output)
 return send_file(output, as_attachment=False)
