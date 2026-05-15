@@ -6,200 +6,80 @@
 
 <title>CCM Performance</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
 body{
-background:#0f0f0f;
-color:white;
-padding-bottom:120px;
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:Arial;
 }
 
 .header{
-padding:30px 20px;
-background:linear-gradient(135deg,#111,#1c1c1c);
-border-bottom:1px solid #2a2a2a;
+    padding:25px;
+    text-align:center;
+    background:black;
+    border-bottom:2px solid gold;
 }
 
 .logo{
-font-size:28px;
-font-weight:700;
-color:#d4af37;
+    width:140px;
+    margin-bottom:10px;
 }
 
-.sub{
-margin-top:5px;
-color:#aaa;
-font-size:14px;
-}
-
-.hero{
-margin:20px;
-background:linear-gradient(135deg,#1a1a1a,#222);
-border-radius:25px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-
-.hero h1{
-font-size:30px;
-margin-bottom:10px;
-}
-
-.hero p{
-color:#bbb;
-line-height:1.5;
-}
-
-.btn{
-margin-top:20px;
-display:inline-block;
-background:#d4af37;
-color:black;
-padding:14px 25px;
-border-radius:15px;
-font-weight:600;
-text-decoration:none;
-}
-
-.section{
-padding:20px;
-}
-
-.title{
-font-size:22px;
-font-weight:600;
-margin-bottom:15px;
+.container{
+    padding:20px;
 }
 
 .card{
-background:#1a1a1a;
-border-radius:22px;
-overflow:hidden;
-margin-bottom:20px;
-box-shadow:0 8px 25px rgba(0,0,0,0.35);
+    background:#1c1c1c;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:20px;
+    border:1px solid #333;
 }
 
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
+.button{
+    display:block;
+    width:100%;
+    background:gold;
+    color:black;
+    padding:15px;
+    text-align:center;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+    margin-top:15px;
 }
-
-.card-content{
-padding:18px;
-}
-
-.car-name{
-font-size:22px;
-font-weight:600;
-margin-bottom:8px;
-}
-
-.car-info{
-color:#aaa;
-font-size:14px;
-margin-bottom:15px;
-}
-
-.price{
-font-size:26px;
-font-weight:700;
-color:#d4af37;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:#151515;
-display:flex;
-justify-content:space-around;
-padding:18px;
-border-top:1px solid #2a2a2a;
-}
-
-.nav-item{
-color:#999;
-font-size:14px;
-text-align:center;
-}
-
-.active{
-color:#d4af37;
-}
-
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<div class="logo">CCM Performance</div>
-<div class="sub">Luxury Rental Cars</div>
+    <h1>CCM Performance</h1>
+    <p>Luxury Rental Cars</p>
 </div>
 
-<div class="hero">
-<h1>Drive Luxury.</h1>
-<p>
-Miete exklusive Fahrzeuge schnell & einfach direkt über dein Smartphone.
-</p>
-
-<a href="/bookings" class="btn">Jetzt buchen</a>
-</div>
-
-<div class="section">
-
-<div class="title">Top Fahrzeuge</div>
+<div class="container">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200&auto=format&fit=crop">
-
-<div class="card-content">
-<div class="car-name">Audi RS6 Performance</div>
-
-<div class="car-info">
-600 PS • Automatik • Premium
-</div>
-
-<div class="price">
-499€ / Tag
-</div>
-</div>
+<h2>Buchungen</h2>
+<p>Alle Vermietungen ansehen</p>
+<a class="button" href="/bookings">Öffnen</a>
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop">
-
-<div class="card-content">
-<div class="car-name">BMW M4 Competition</div>
-
-<div class="car-info">
-510 PS • Carbon • Vollausstattung
+<h2>Fahrzeuge</h2>
+<p>Fuhrpark verwalten</p>
+<a class="button" href="/cars">Öffnen</a>
 </div>
 
-<div class="price">
-399€ / Tag
-</div>
-</div>
-</div>
-
+<div class="card">
+<h2>Rechnungen</h2>
+<p>PDF Rechnungen erstellen</p>
+<a class="button" href="/">Öffnen</a>
 </div>
 
-<div class="bottom-nav">
-<div class="nav-item active">Home</div>
-<div class="nav-item">Fahrzeuge</div>
-<div class="nav-item">Buchungen</div>
-<div class="nav-item">Profil</div>
 </div>
 
 </body>
