@@ -870,8 +870,8 @@ write(330, 410, f"{netto:.2f} Euro")
 write(330, 435, f"{mwst:.2f} Euro")
 write(330, 465, f"{brutto:.2f} Euro")
 
-doc.save(output)
-return send_file(output, as_attachment=False)
+    doc.save(output)
+    return send_file(output, as_attachment=False)
 
 @app.route("/mobile")
 def mobile():
