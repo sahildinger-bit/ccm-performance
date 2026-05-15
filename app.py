@@ -868,14 +868,13 @@ invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.
     write(330, 435, f"{mwst:.2f} Euro")
     write(330, 465, f"{brutto:.2f} Euro")
 
-    invoice_no = booking_data.get("invoice_no") or ""
-    contract_no = booking_data.get("contract_no") or ""
-    invoice_date = booking_data.get("invoice_date") or ""
+invoice_no = booking_data.get("invoice_no") or ""
+contract_no = booking_data.get("contract_no") or ""
+invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.%Y")
 
-    write(160, 735, invoice_no)
-    write(360, 735, contract_no)
-    write(500, 735, invoice_date)
-  
+write(160, 735, invoice_no)
+write(360, 735, contract_no)
+write(500, 735, invoice_date)  
 
     doc.save(output)
 
