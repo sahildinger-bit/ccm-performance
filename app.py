@@ -1,6 +1,7 @@
 import os
 import io
 import sqlite3
+import fitz
 from datetime import datetime, date, timedelta
 from functools import wraps
 
