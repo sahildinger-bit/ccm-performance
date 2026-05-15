@@ -875,5 +875,4 @@ write(360, 735, contract_no)
 write(500, 735, invoice_date)
 
 doc.save(output)
-
-return send_file(output, as_attachment=False)
+    return send_file(output, as_attachment=False)
