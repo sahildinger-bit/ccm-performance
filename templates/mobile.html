@@ -3,83 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CCM Performance</title>
+
+<title>CCM Mobile</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#070707;color:white;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;padding-bottom:95px}
-.hero{padding:34px 22px 28px;background:radial-gradient(circle at top right,#333,#050505 55%);border-bottom:1px solid #d6b64c}
-.badge{display:inline-block;color:#d6b64c;border:1px solid #d6b64c;padding:7px 12px;border-radius:999px;font-size:13px;margin-bottom:18px}
-h1{font-size:42px;line-height:1.05;margin:0 0 10px;font-weight:800}
-.hero p{color:#cfcfcf;font-size:18px;margin:0}
-.wrap{padding:20px}
-.grid{display:grid;gap:16px}
-.card{background:linear-gradient(145deg,#1b1b1b,#101010);border:1px solid #303030;border-radius:26px;padding:22px;box-shadow:0 18px 40px rgba(0,0,0,.45)}
-.icon{font-size:34px;margin-bottom:14px}
-.card h2{font-size:29px;margin:0 0 8px}
-.card p{color:#bdbdbd;font-size:16px;margin:0 0 18px}
-.btn{display:block;text-align:center;text-decoration:none;background:linear-gradient(135deg,#ffe066,#c9a227);color:#000;font-weight:800;padding:16px;border-radius:18px;font-size:18px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
-.stat{background:#111;border:1px solid #292929;border-radius:20px;padding:18px}
-.stat strong{display:block;font-size:25px;color:#d6b64c}
-.stat span{color:#aaa;font-size:13px}
-.nav{position:fixed;left:14px;right:14px;bottom:16px;background:rgba(18,18,18,.92);backdrop-filter:blur(18px);border:1px solid #333;border-radius:28px;display:flex;justify-content:space-around;padding:14px 8px}
-.nav a{color:#aaa;text-decoration:none;font-size:12px;text-align:center}
-.nav b{display:block;font-size:22px;margin-bottom:3px}
-.active{color:#d6b64c!important}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,sans-serif;
+}
+
+body{
+background:#070707;
+color:white;
+padding:20px;
+padding-bottom:120px;
+}
+
+.logo{
+font-size:34px;
+font-weight:800;
+margin-bottom:8px;
+color:#f0b90b;
+}
+
+.subtitle{
+color:#999;
+margin-bottom:30px;
+}
+
+.card{
+background:#111;
+border:1px solid #222;
+border-radius:24px;
+padding:22px;
+margin-bottom:18px;
+}
+
+.card h2{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.card p{
+color:#aaa;
+margin-bottom:20px;
+}
+
+.btn{
+display:block;
+width:100%;
+padding:18px;
+border-radius:18px;
+background:#f0b90b;
+color:black;
+text-align:center;
+text-decoration:none;
+font-weight:700;
+font-size:18px;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#111;
+border-top:1px solid #222;
+display:flex;
+justify-content:space-around;
+padding:16px 0;
+}
+
+.bottom a{
+color:#f0b90b;
+text-decoration:none;
+font-size:14px;
+font-weight:bold;
+}
+
 </style>
 </head>
+
 <body>
 
-<section class="hero">
-  <div class="badge">Luxury Rental Cars</div>
-  <h1>CCM Performance</h1>
-  <p>Premium Fahrzeugverwaltung für Buchungen, Kunden und Rechnungen.</p>
-</section>
+<div class="logo">CCM Performance</div>
+<div class="subtitle">Luxury Rental Cars</div>
 
-<div class="wrap">
-
-  <div class="stats">
-    <div class="stat"><strong>24/7</strong><span>Mobil verfügbar</span></div>
-    <div class="stat"><strong>PDF</strong><span>Rechnung & Vertrag</span></div>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <div class="icon">📅</div>
-      <h2>Buchungen</h2>
-      <p>Neue Reservierungen erstellen und verwalten.</p>
-      <a class="btn" href="/m/bookings">Öffnen</a>
-    </div>
-
-    <div class="card">
-      <div class="icon">🏎️</div>
-      <h2>Fahrzeuge</h2>
-      <p>Fuhrpark, Preise und Verfügbarkeit bearbeiten.</p>
-      <a class="btn" href="/vehicles">Öffnen</a>
-    </div>
-
-    <div class="card">
-      <div class="icon">👤</div>
-      <h2>Kunden</h2>
-      <p>Kundendaten schnell öffnen und pflegen.</p>
-      <a class="btn" href="/customers">Öffnen</a>
-    </div>
-
-    <div class="card">
-      <div class="icon">📄</div>
-      <h2>Dokumente</h2>
-      <p>Rechnung und Mietvertrag direkt aus Buchungen.</p>
-      <a class="btn" href="/bookings">Zu Buchungen</a>
-    </div>
-  </div>
+<div class="card">
+<h2>Buchungen</h2>
+<p>Alle Vermietungen verwalten</p>
+<a class="btn" href="/m/bookings">Öffnen</a>
 </div>
 
-<nav class="nav">
-  <a class="active" href="/mobile"><b>⌂</b>Home</a>
-  <a href="/vehicles"><b>🏎️</b>Autos</a>
-  <a href="/bookings"><b>📅</b>Buchen</a>
-  <a href="/customers"><b>👤</b>Kunden</a>
-</nav>
+<div class="card">
+<h2>Fahrzeuge</h2>
+<p>Fuhrpark verwalten</p>
+<a class="btn" href="/vehicles">Öffnen</a>
+</div>
+
+<div class="card">
+<h2>Kunden</h2>
+<p>Kundenverwaltung</p>
+<a class="btn" href="/customers">Öffnen</a>
+</div>
+
+<div class="card">
+<h2>Rechnungen</h2>
+<p>PDF Rechnungen erstellen</p>
+<a class="btn" href="/contracts">Öffnen</a>
+</div>
+
+<div class="bottom">
+<a href="/app">Home</a>
+<a href="/m/bookings">Buchungen</a>
+<a href="/vehicles">Autos</a>
+<a href="/customers">Kunden</a>
+</div>
 
 </body>
 </html>
