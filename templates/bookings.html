@@ -53,19 +53,47 @@
         <td>{{ item.row.start_date }}{% if item.row.pickup_time %} {{ item.row.pickup_time }}{% endif %}<br>bis {{ item.row.end_date }}{% if item.row.return_time %} {{ item.row.return_time }}{% endif %}</td>
         <td>{{ item.calc.tariff }}<br><span class="small">{{ item.calc.days }} Tage</span></td>
         <td>{{ "%.2f"|format(item.calc.total) }} €</td>
-        <td>
-          <div class="table-actions">
-            <a class="btn-small" href="{{ url_for('booking_edit', booking_id=item.row.id) }}">Bearbeiten</a>
-            <form method="post" action="{{ url_for('booking_delete', booking_id=item.row.id) }}" onsubmit="return confirm('Buchung wirklich löschen?');">
-              <button class="btn-small danger" type="submit">Löschen</button>
-            </form>
-          </div>
-        </td>
-<a href="/invoice/{{ item.row.id }}" target="_blank" class="btn-small warning">
+<td>
+  <div class="table-actions">
+
+    <a class="btn-small"
+       href="{{ url_for('booking_edit', booking_id=item.row.id) }}">
+      Bearbeiten
+    </a>
+
+    <form method="post"
+          action="{{ url_for('booking_delete', booking_id=item.row.id) }}"
+          onsubmit="return confirm('Buchung wirklich löschen?')">
+
+      <button class="btn-small danger" type="submit">
+        Löschen
+      </button>
+
+    </form>
+
+  </div>
+</td>
+
+<td>
+  <a href="/contracts/{{ item.row.id }}/pdf"
+     target="_blank"
+     class="btn-small">
+    Vertrag PDF
+  </a>
+</td>
+
+<td>
+  <a href="/invoice/{{ item.row.id }}"
+     target="_blank"
+     class="btn-small warning">
     Rechnung
-</a>      </tr>
-      {% endfor %}
-    </table>
-  </section>
+  </a>
+</td>
+
+</tr>
+{% endfor %}
+</table>
+</section>
 </div>
+
 {% endblock %}
