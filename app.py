@@ -805,7 +805,16 @@ def vehicle_edit(vehicle_id):
 def mobile():
     return render_template("mobile.html")
 
+@app.route("/invoice/<int:booking_id>")
+@login_required
+def invoice_pdf(booking_id):
 
+    from flask import send_file
+    import shutil
+
+    pdf_path = "contracts/Rechnung.pdf"
+
+    return send_file(pdf_path, as_attachment=False)
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
