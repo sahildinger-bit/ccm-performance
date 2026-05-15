@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CCM Mobile</title>
-<style>
-body{background:#0b0b0f;font-family:Arial;padding:20px;color:white}
-.card{background:#151515;padding:22px;margin:12px 0;border-radius:16px;font-size:22px;font-weight:bold}
-a{color:white;text-decoration:none;display:block}
-</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CCM Mobile</title>
+  <style>
+    body{margin:0;background:#050505;color:white;font-family:Arial;padding:18px}
+    h1{font-size:26px;margin:10px 0 4px}
+    p{color:#aaa;margin-top:0}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:24px}
+    .card{background:#151515;border:1px solid #2a2a2a;border-radius:18px;padding:20px;text-decoration:none;color:white;font-size:22px;font-weight:bold}
+    .small{font-size:14px;color:#aaa;margin-top:8px;font-weight:normal}
+    .bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid #333;display:flex;justify-content:space-around;padding:12px}
+    .bottom a{color:white;text-decoration:none;font-size:13px}
+  </style>
 </head>
 <body>
-<h1>CCM Performance</h1>
-<div class="card"><a href="/vehicles">🚗 Fahrzeuge</a></div>
-<div class="card"><a href="/customers">👤 Kunden</a></div>
-<div class="card"><a href="/bookings">📅 Buchungen</a></div>
-<div class="card"><a href="/reservations">📋 Reservierungen</a></div>
-<div class="card"><a href="/calendar">🗓 Kalender</a></div>
-<div class="card"><a href="/contracts">📄 Verträge</a></div>
-<div class="card"><a href="/settings">⚙ Einstellungen</a></div>
+  <h1>CCM Performance</h1>
+  <p>Mobile Verwaltung</p>
+
+  <div class="grid">
+    <a class="card" href="/bookings">📅 Buchungen<div class="small">Buchungen ansehen und bearbeiten</div></a>
+    <a class="card" href="/vehicles">🚗 Fahrzeuge<div class="small">Fahrzeugliste öffnen</div></a>
+    <a class="card" href="/customers">👤 Kunden<div class="small">Kundendaten verwalten</div></a>
+    <a class="card" href="/reservations">📝 Reservierungen<div class="small">Reservierungen prüfen</div></a>
+    <a class="card" href="/calendar">📆 Kalender<div class="small">Termine und Übersicht</div></a>
+    <a class="card" href="/contracts">📄 Verträge<div class="small">PDF-Verträge öffnen</div></a>
+  </div>
+
+  <div class="bottom">
+    <a href="/mobile">Home</a>
+    <a href="/bookings">Buchungen</a>
+    <a href="/vehicles">Autos</a>
+    <a href="/customers">Kunden</a>
+  </div>
 </body>
 </html>
