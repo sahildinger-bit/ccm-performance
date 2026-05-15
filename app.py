@@ -860,4 +860,4 @@ return send_file(output, as_attachment=False)
 
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)´ßp#üß
+    app.run(debug=True)
