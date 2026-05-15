@@ -1,108 +1,206 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CCM Mobile</title>
-  <style>
-    body{
-      margin:0;
-      background:radial-gradient(circle at top,#111 0,#030303 65%);
-      color:white;
-      font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-      padding:22px 18px 95px;
-    }
-    .logo{text-align:center;margin:28px 0 45px}
-    .logo .ccm{font-size:42px;font-weight:900;letter-spacing:2px}
-    .logo .perf{color:#caa23a;font-size:22px;font-weight:800;letter-spacing:1px}
-    h1{font-size:34px;margin:0 0 6px}
-    .sub{color:#aaa;font-size:22px;margin-bottom:28px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .card{
-      background:linear-gradient(145deg,#191919,#0d0d0d);
-      border:1px solid #333;
-      border-radius:24px;
-      padding:24px 18px;
-      min-height:130px;
-      text-decoration:none;
-      color:white;
-      box-shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    .icon{font-size:38px;color:#caa23a;margin-bottom:18px}
-    .title{font-size:24px;font-weight:800;margin-bottom:10px}
-    .text{font-size:17px;color:#aaa;line-height:1.4}
-    .bottom{
-      position:fixed;
-      bottom:0;left:0;right:0;
-      background:rgba(10,10,10,.96);
-      border-top:1px solid #242424;
-      display:flex;
-      justify-content:space-around;
-      padding:13px 0 24px;
-    }
-    .bottom a{
-      color:#aaa;
-      text-decoration:none;
-      font-size:13px;
-      text-align:center;
-    }
-    .bottom .active{color:#caa23a}
-    .bottom span{display:block;font-size:26px;margin-bottom:4px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CCM Performance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+padding-bottom:120px;
+}
+
+.header{
+padding:30px 20px;
+background:linear-gradient(135deg,#111,#1c1c1c);
+border-bottom:1px solid #2a2a2a;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#d4af37;
+}
+
+.sub{
+margin-top:5px;
+color:#aaa;
+font-size:14px;
+}
+
+.hero{
+margin:20px;
+background:linear-gradient(135deg,#1a1a1a,#222);
+border-radius:25px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.hero h1{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#bbb;
+line-height:1.5;
+}
+
+.btn{
+margin-top:20px;
+display:inline-block;
+background:#d4af37;
+color:black;
+padding:14px 25px;
+border-radius:15px;
+font-weight:600;
+text-decoration:none;
+}
+
+.section{
+padding:20px;
+}
+
+.title{
+font-size:22px;
+font-weight:600;
+margin-bottom:15px;
+}
+
+.card{
+background:#1a1a1a;
+border-radius:22px;
+overflow:hidden;
+margin-bottom:20px;
+box-shadow:0 8px 25px rgba(0,0,0,0.35);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card-content{
+padding:18px;
+}
+
+.car-name{
+font-size:22px;
+font-weight:600;
+margin-bottom:8px;
+}
+
+.car-info{
+color:#aaa;
+font-size:14px;
+margin-bottom:15px;
+}
+
+.price{
+font-size:26px;
+font-weight:700;
+color:#d4af37;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#151515;
+display:flex;
+justify-content:space-around;
+padding:18px;
+border-top:1px solid #2a2a2a;
+}
+
+.nav-item{
+color:#999;
+font-size:14px;
+text-align:center;
+}
+
+.active{
+color:#d4af37;
+}
+
+</style>
 </head>
+
 <body>
 
-  <div class="logo">
-    <div class="ccm">CCM</div>
-    <div class="perf">PERFORMANCE</div>
-  </div>
+<div class="header">
+<div class="logo">CCM Performance</div>
+<div class="sub">Luxury Rental Cars</div>
+</div>
 
-  <h1>Willkommen</h1>
-  <div class="sub">Mobile Verwaltung</div>
+<div class="hero">
+<h1>Drive Luxury.</h1>
+<p>
+Miete exklusive Fahrzeuge schnell & einfach direkt über dein Smartphone.
+</p>
 
-  <div class="grid">
-    <a class="card" href="/bookings">
-      <div class="icon">📅</div>
-      <div class="title">Buchungen</div>
-      <div class="text">Buchungen ansehen und verwalten</div>
-    </a>
+<a href="/bookings" class="btn">Jetzt buchen</a>
+</div>
 
-    <a class="card" href="/vehicles">
-      <div class="icon">🚗</div>
-      <div class="title">Fahrzeuge</div>
-      <div class="text">Fahrzeugliste anzeigen und bearbeiten</div>
-    </a>
+<div class="section">
 
-    <a class="card" href="/customers">
-      <div class="icon">👤</div>
-      <div class="title">Kunden</div>
-      <div class="text">Kundendaten verwalten</div>
-    </a>
+<div class="title">Top Fahrzeuge</div>
 
-    <a class="card" href="/reservations">
-      <div class="icon">📋</div>
-      <div class="title">Reservierungen</div>
-      <div class="text">Reservierungen prüfen und verwalten</div>
-    </a>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1200&auto=format&fit=crop">
 
-    <a class="card" href="/calendar">
-      <div class="icon">📆</div>
-      <div class="title">Kalender</div>
-      <div class="text">Übersicht und Termine</div>
-    </a>
+<div class="card-content">
+<div class="car-name">Audi RS6 Performance</div>
 
-    <a class="card" href="/contracts">
-      <div class="icon">📄</div>
-      <div class="title">Verträge</div>
-      <div class="text">PDF-Verträge ansehen</div>
-    </a>
-  </div>
+<div class="car-info">
+600 PS • Automatik • Premium
+</div>
 
-  <div class="bottom">
-    <a class="active" href="/mobile"><span>🏠</span>Home</a>
-    <a href="/bookings"><span>📅</span>Buchungen</a>
-    <a href="/vehicles"><span>🚗</span>Fahrzeuge</a>
-    <a href="/customers"><span>👤</span>Kunden</a>
-  </div>
+<div class="price">
+499€ / Tag
+</div>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop">
+
+<div class="card-content">
+<div class="car-name">BMW M4 Competition</div>
+
+<div class="car-info">
+510 PS • Carbon • Vollausstattung
+</div>
+
+<div class="price">
+399€ / Tag
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="bottom-nav">
+<div class="nav-item active">Home</div>
+<div class="nav-item">Fahrzeuge</div>
+<div class="nav-item">Buchungen</div>
+<div class="nav-item">Profil</div>
+</div>
 
 </body>
 </html>
