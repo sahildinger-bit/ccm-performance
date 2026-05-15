@@ -801,12 +801,6 @@ def vehicle_edit(vehicle_id):
 
     return render_template("vehicles.html", title="Fahrzeuge", edit_item=vehicle)
 
-@app.route("/mobile")
-def mobile():
-    return render_template("mobile.html")
-
-
-
 @app.route("/invoice/<int:booking_id>")
 @login_required
 def invoice_pdf(booking_id):
@@ -816,12 +810,23 @@ def invoice_pdf(booking_id):
 
     db = get_db()
 
-    booking = db.execute("SELECT * FROM bookings WHERE id=?", (booking_id,)).fetchone()
+    booking = db.execute(
+        "SELECT * FROM bookings WHERE id=?",
+        (booking_id,)
+    ).fetchone()
+
     if not booking:
         return "Buchung nicht gefunden", 404
 
-    customer = db.execute("SELECT * FROM customers WHERE id=?", (booking["customer_id"],)).fetchone()
-    vehicle = db.execute("SELECT * FROM vehicles WHERE id=?", (booking["vehicle_id"],)).fetchone()
+    customer = db.execute(
+        "SELECT * FROM customers WHERE id=?",
+        (booking["customer_id"],)
+    ).fetchone()
+
+    vehicle = db.execute(
+        "SELECT * FROM vehicles WHERE id=?",
+        (booking["vehicle_id"],)
+    ).fetchone()
 
     template = "contracts/Rechnung.pdf"
     output = f"/tmp/Rechnung_{booking_id}.pdf"
@@ -835,29 +840,32 @@ def invoice_pdf(booking_id):
 
     def write(x, y, text):
         page.insert_text((x, y), str(text), fontsize=10)
-name = customer["full_name"]
-fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
-zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
-write(150, 205, name)
-write(150, 225, customer["address"])
-write(150, 245, customer["phone"])
-write(150, 265, fahrzeug)
-write(150, 285, zeitraum)
-write(150, 325, "Vermietung eines Fahrzeugs")
-write(150, 345, "Sonderpreis")
-write(330, 410, f"{netto:.2f} Euro")
-write(330, 435, f"{mwst:.2f} Euro")
-write(330, 465, f"{brutto:.2f} Euro")
-write(330, 495, "Nicht Teil der Rechnung")
+    name = customer["full_name"]
+    fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
+    zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
-write(160, 735, f"CCM-{booking_id:03d}")
-write(360, 735, f"CCM-{booking_id:03d}")
-write(500, 735, date.today().strftime("%d.%m.%Y"))
-  
-doc.save(output)
-return send_file(output, as_attachment=False)
+    write(150, 205, name)
+    write(150, 225, customer["address"])
+    write(150, 245, customer["phone"])
+    write(150, 265, fahrzeug)
+    write(150, 285, zeitraum)
 
+    write(150, 325, "Vermietung eines Fahrzeugs")
+    write(150, 345, "Sonderpreis")
+
+    write(330, 410, f"{netto:.2f} Euro")
+    write(330, 435, f"{mwst:.2f} Euro")
+    write(330, 465, f"{brutto:.2f} Euro")
+
+    write(330, 495, "Nicht Teil der Rechnung")
+
+    write(160, 735, f"CCM-{booking_id:03d}")
+    write(360, 735, f"CCM-{booking_id:03d}")
+    write(500, 735, date.today().strftime("%d.%m.%Y"))
+
+    doc.save(output)
+    return send_file(output, as_attachment=False)
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
