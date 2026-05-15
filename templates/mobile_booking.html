@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buchungen</title>
+
+<style>
+body{
+    background:#050505;
+    color:white;
+    font-family:-apple-system,sans-serif;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    color:#d4af37;
+    margin-bottom:25px;
+    font-size:34px;
+}
+
+.card{
+    background:#111;
+    border:1px solid #222;
+    border-radius:22px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.car{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.info{
+    color:#aaa;
+    margin-bottom:6px;
+}
+
+.btn{
+    display:block;
+    background:#d4af37;
+    color:black;
+    text-align:center;
+    padding:14px;
+    border-radius:14px;
+    text-decoration:none;
+    font-weight:700;
+    margin-top:14px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Buchungen</h1>
+
+{% for booking in bookings %}
+<div class="card">
+
+    <div class="car">
+        {{ booking.vehicle_name }}
+    </div>
+
+    <div class="info">
+        Kunde: {{ booking.first_name }} {{ booking.last_name }}
+    </div>
+
+    <div class="info">
+        {{ booking.start_date }} → {{ booking.end_date }}
+    </div>
+
+    <div class="info">
+        Preis: € {{ booking.total_price or booking.special_price }}
+    </div>
+
+    <a class="btn" href="/invoice/{{ booking.id }}">
+        Rechnung öffnen
+    </a>
+
+</div>
+{% endfor %}
+
+</body>
+</html>
