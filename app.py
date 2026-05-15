@@ -831,9 +831,11 @@ def invoice_pdf(booking_id):
     output = f"/tmp/Rechnung_{booking_id}.pdf"
 
     booking_data = dict(booking)
-
-    brutto = float(
-        booking_data.get("calc_total")
+invoice_no = booking_data.get("invoice_no") or ""
+contract_no = booking_data.get("contract_no") or ""
+invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.%Y")    brutto = float(
+        
+    booking_data.get("calc_total")
         or booking_data.get("total_price")
         or booking_data.get("price")
         or booking_data.get("special_price")
@@ -865,11 +867,15 @@ def invoice_pdf(booking_id):
     write(330, 410, f"{netto:.2f} Euro")
     write(330, 435, f"{mwst:.2f} Euro")
     write(330, 465, f"{brutto:.2f} Euro")
-    write(330, 495, "Nicht Teil der Rechnung")
 
-    write(160, 735, f"CCM-{booking_id:03d}")
-    write(360, 735, f"CCM-{booking_id:03d}")
-    write(500, 735, date.today().strftime("%d.%m.%Y"))
+    invoice_no = booking_data.get("invoice_no") or ""
+    contract_no = booking_data.get("contract_no") or ""
+    invoice_date = booking_data.get("invoice_date") or ""
+
+    write(160, 735, invoice_no)
+    write(360, 735, contract_no)
+    write(500, 735, invoice_date)
+  
 
     doc.save(output)
 
