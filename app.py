@@ -876,7 +876,3 @@ write(330, 465, f"{brutto:.2f} Euro")
 @app.route("/mobile")
 def mobile():
     return render_template("mobile.html")
-
-if __name__ == "__main__":
-    init_db()
-    app.run(debug=True)
