@@ -855,7 +855,8 @@ write(160, 735, f"CCM-{booking_id:03d}")
 write(360, 735, f"CCM-{booking_id:03d}")
 write(500, 735, date.today().strftime("%d.%m.%Y"))
     doc.save(output)
-return send_file(output, as_attachment=False)
+    return send_file(output, as_attachment=False)
+
 if __name__ == "__main__":
     init_db()
-    app.run(debug=True)
+    app.run(debug=True)´ßp#üß
