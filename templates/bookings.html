@@ -61,8 +61,9 @@
             </form>
           </div>
         </td>
-        <td><a href="/contracts/{{ item.row.id }}/pdf" target="_blank">PDF</a></td>
-      </tr>
+<a href="/invoice/{{ item.row.id }}" target="_blank" class="btn-small warning">
+    Rechnung
+</a>      </tr>
       {% endfor %}
     </table>
   </section>
