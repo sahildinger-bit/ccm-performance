@@ -865,6 +865,7 @@ write(150, 285, zeitraum)
 
 write(150, 325, "Vermietung eines Fahrzeugs")
 write(150, 345, "Sonderpreis")
+
 write(330, 410, f"{netto:.2f} Euro")
 write(330, 435, f"{mwst:.2f} Euro")
 write(330, 465, f"{brutto:.2f} Euro")
@@ -872,9 +873,11 @@ write(330, 465, f"{brutto:.2f} Euro")
 doc.save(output)
 return send_file(output, as_attachment=False)
 
+
 @app.route("/mobile")
 def mobile():
     return render_template("mobile.html")
+
 
 if __name__ == "__main__":
     init_db()
