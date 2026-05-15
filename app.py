@@ -849,7 +849,7 @@ def invoice_pdf(booking_id):
     def write(x, y, text):
         page.insert_text((x, y), str(text), fontsize=10)
 
-    name = customer["full_name"]
+    name = f"{customer['first_name']} {customer['last_name']}"
     fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
     zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
