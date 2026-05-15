@@ -863,8 +863,17 @@ def invoice_pdf(booking_id):
 @app.route("/mobile")
 def mobile():
     return render_template("mobile.html")
+@app.route("/m/bookings")
+def mobile_bookings():
+    bookings = get_db().execute("""
+        SELECT bookings.*, customers.first_name, customers.last_name, vehicles.name AS vehicle_name
+        FROM bookings
+        LEFT JOIN customers ON bookings.customer_id = customers.id
+        LEFT JOIN vehicles ON bookings.vehicle_id = vehicles.id
+        ORDER BY bookings.id DESC
+    """).fetchall()
 
-
+    return render_template("mobile_bookings.html", bookings=bookings)
 if __name__ == "__main__":
     init_db()
     app.run(debug=True)
