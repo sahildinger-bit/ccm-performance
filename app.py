@@ -801,21 +801,13 @@ def vehicle_edit(vehicle_id):
 
     return render_template("vehicles.html", title="Fahrzeuge", edit_item=vehicle)
 @app.route("/invoice/<int:booking_id>")
-@login_required
 def invoice_pdf(booking_id):
-    import fitz
-    from flask import send_file
-    from datetime import date
-
     db = get_db()
 
     booking = db.execute(
         "SELECT * FROM bookings WHERE id=?",
         (booking_id,)
     ).fetchone()
-
-    if not booking:
-        return "Buchung nicht gefunden", 404
 
     customer = db.execute(
         "SELECT * FROM customers WHERE id=?",
@@ -827,51 +819,49 @@ def invoice_pdf(booking_id):
         (booking["vehicle_id"],)
     ).fetchone()
 
-template = "contracts/Rechnung.pdf"
-output = f"/tmp/Rechnung_{booking_id}.pdf"
+    template = "contracts/Rechnung.pdf"
+    output = f"/tmp/Rechnung_{booking_id}.pdf"
 
-booking_data = dict(booking)
+    booking_data = dict(booking)
 
-invoice_no = booking_data.get("invoice_no") or ""
-contract_no = booking_data.get("contract_no") or ""
-invoice_date = booking_data.get("invoice_date") or date.today().strftime("%d.%m.%Y")
+    brutto = float(
+        booking_data.get("calc_total")
+        or booking_data.get("total_price")
+        or booking_data.get("price")
+        or booking_data.get("special_price")
+        or 0
+    )
 
-brutto = float(
-    booking_data.get("calc_total")
-    or booking_data.get("total_price")
-    or booking_data.get("price")
-    or booking_data.get("special_price")
-    or 0
-)
+    netto = round(brutto / 1.19, 2)
+    mwst = round(brutto - netto, 2)
 
-netto = round(brutto / 1.19, 2)
-mwst = round(brutto - netto, 2)
+    doc = fitz.open(template)
+    page = doc[0]
 
-doc = fitz.open(template)
-page = doc[0]
+    def write(x, y, text):
+        page.insert_text((x, y), str(text), fontsize=10)
 
-def write(x, y, text):
-    page.insert_text((x, y), str(text), fontsize=10)
+    name = f"{customer['first_name']} {customer['last_name']}"
+    fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
+    zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
-name = f"{customer['first_name']} {customer['last_name']}"
-fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
-zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
+    write(150, 205, name)
+    write(150, 225, customer["address"])
+    write(150, 245, customer["phone"])
+    write(150, 265, fahrzeug)
+    write(150, 285, zeitraum)
 
-write(150, 205, name)
-write(150, 225, customer["address"])
-write(150, 245, customer["phone"])
-write(150, 265, fahrzeug)
-write(150, 285, zeitraum)
+    write(330, 410, f"{netto:.2f} Euro")
+    write(330, 435, f"{mwst:.2f} Euro")
+    write(330, 465, f"{brutto:.2f} Euro")
 
-write(150, 325, "Vermietung eines Fahrzeugs")
-write(150, 345, "Sonderpreis")
+    doc.save(output)
+    return send_file(output, as_attachment=False)
 
-write(330, 410, f"{netto:.2f} Euro")
-write(330, 435, f"{mwst:.2f} Euro")
-write(330, 465, f"{brutto:.2f} Euro")
 
-doc.save(output)
-return send_file(output, as_attachment=False)
+@app.route("/mobile")
+def mobile():
+    return render_template("mobile.html")
 
 
 if __name__ == "__main__":
