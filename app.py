@@ -827,7 +827,7 @@ def invoice_pdf(booking_id):
         (booking["vehicle_id"],)
     ).fetchone()
 
- template = "contracts/Rechnung.pdf"
+template = "contracts/Rechnung.pdf"
 output = f"/tmp/Rechnung_{booking_id}.pdf"
 
 booking_data = dict(booking)
