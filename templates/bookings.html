@@ -32,6 +32,14 @@
       <label>KM bei Rückgabe<input name="return_km" type="number" value="{{ edit_item.return_km if edit_item and edit_item.return_km is not none else '' }}"></label>
       <label>Tank bei Abgabe<input name="pickup_fuel" value="{{ edit_item.pickup_fuel if edit_item else '' }}"></label>
       <label>Tank bei Rückgabe<input name="return_fuel" value="{{ edit_item.return_fuel if edit_item else '' }}"></label>
+      <label>Rechnungsnummer
+      <input name="invoice_no"
+      value="{{ edit_item.invoice_no if edit_item else '' }}">
+      </label>
+      <label>Buchungsnummer
+      <input name="contract_no"
+       value="{{ edit_item.contract_no if edit_item else '' }}">
+      </label>
       <label>Notiz<input name="note" value="{{ edit_item.note if edit_item else '' }}"></label>
       <div class="form-actions">
         <button type="submit">{{ "Änderungen speichern" if edit_item else "Buchung speichern" }}</button>
