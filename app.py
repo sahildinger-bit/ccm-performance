@@ -875,6 +875,9 @@ def invoice_pdf(booking_id):
 
     return send_file(output, as_attachment=False)
 
+@app.route("/mobile")
+def mobile():
+    return render_template("mobile.html")
 
 if __name__ == "__main__":
     init_db()
