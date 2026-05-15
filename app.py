@@ -845,14 +845,14 @@ netto = round(brutto / 1.19, 2)
 mwst = round(brutto - netto, 2)
 
 doc = fitz.open(template)
-page = doc[0] 
+page = doc[0]
 
 def write(x, y, text):
-        page.insert_text((x, y), str(text), fontsize=10)
+    page.insert_text((x, y), str(text), fontsize=10)
 
-    name = customer["full_name"]
-    fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
-    zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
+name = customer["full_name"]
+fahrzeug = f"{vehicle['name']} / {vehicle['plate']}"
+zeitraum = f"{booking['start_date']} bis {booking['end_date']}"
 
     write(150, 205, name)
     write(150, 225, customer["address"])
