@@ -88,12 +88,20 @@ def sync_default_vehicle_prices():
 def init_db():
     db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS birth_date TEXT")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS license_no TEXT")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS license_checked TEXT DEFAULT 'Nein'")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS license_link TEXT")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS id_link TEXT")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS note TEXT")    
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS start_date TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS pickup_time TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS end_date TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS return_time TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS special_price REAL")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS special_reason TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS extra_km REAL DEFAULT 0")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS deposit_status TEXT DEFAULT 'nicht bezahlt'")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS pickup_km REAL")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS return_km REAL")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS pickup_fuel TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS return_fuel TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS note TEXT")
+    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS created_at TEXT DEFAULT CURRENT_TIMESTAMP")   
     
     # USERS
     cur.execute("""
