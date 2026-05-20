@@ -328,7 +328,9 @@ def calculate_price(row):
     }
 
 def fetch_bookings_full():
-    return get_db().execute("""
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("""
         SELECT b.*,
                v.name AS vehicle_name, v.plate, v.image_link, v.color_tag, v.status AS vehicle_status,
                v.daily_price, v.four_day_price, v.weekend_price, v.monthly_price,
@@ -339,7 +341,8 @@ def fetch_bookings_full():
         JOIN vehicles v ON v.id=b.vehicle_id
         JOIN customers c ON c.id=b.customer_id
         ORDER BY b.start_date DESC, b.id DESC
-    """).fetchall()
+    """)
+    return cur.fetchall()
 
 def monthly_revenue(bookings):
     vals = {m: 0 for m in range(1, 13)}
