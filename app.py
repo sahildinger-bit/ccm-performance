@@ -327,58 +327,62 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("login"))
-
 @app.route("/")
 @login_required
 def dashboard():
     db = get_db()
-cur = db.cursor()
+    cur = db.cursor()
 
-cur.execute("SELECT COUNT(*) FROM vehicles")
-vehicles_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM vehicles")
+    vehicles_count = cur.fetchone()[0]
 
-cur.execute("SELECT COUNT(*) FROM customers")
-customers_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM customers")
+    customers_count = cur.fetchone()[0]
 
-cur.execute("SELECT COUNT(*) FROM bookings")
-bookings_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM bookings")
+    bookings_count = cur.fetchone()[0]
 
-cur.execute("SELECT COUNT(*) FROM damages")
-damages_count = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM damages")
+    damages_count = cur.fetchone()[0]
 
-totals = {
-    "vehicles": vehicles_count,
-    "customers": customers_count,
-    "bookings": bookings_count,
-    "damages": damages_count,
-}
-bookings = fetch_bookings_full()
-revenue = 0
-profit = 0
-recent = []
-for row in bookings[:8]:
-    calc = calculate_price(row)
-    revenue += calc["total"]
-    profit += calc["profit"]
-    recent.append({"row": row, "calc": calc, "contract_no": contract_no(row["id"])})
+    totals = {
+        "vehicles": vehicles_count,
+        "customers": customers_count,
+        "bookings": bookings_count,
+        "damages": damages_count,
+    }
 
- def dashboard():
-    db = get_db()
+    bookings = fetch_bookings_full()
+    revenue = 0
+    profit = 0
+    recent = []
 
-    ...
+    for row in bookings[:8]:
+        calc = calculate_price(row)
+        revenue += calc["total"]
+        profit += calc["profit"]
+        recent.append({"row": row, "calc": calc, "contract_no": contract_no(row["id"])})
+
+    cur.execute("SELECT * FROM vehicles ORDER BY name")
+    vehicle_status = cur.fetchall()
+
+    month_vals = monthly_revenue(bookings)
+    max_val = max(month_vals.values()) if month_vals else 0
+
+    month_data = []
+    month_names = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
+
+    for i in range(1, 13):
+        v = month_vals[i]
+        pct = 0 if max_val == 0 else max(6, int(v / max_val * 100))
+        month_data.append({"label": month_names[i - 1], "value": round(v, 2), "pct": pct})
 
     util = []
 
     for v in vehicle_status:
-        count = db.execute(
-            "SELECT COUNT(*) c FROM bookings WHERE vehicle_id=?",
-            (v["id"],)
-        ).fetchone()["c"]
-
-        util.append({
-            "name": v["name"],
-            "count": count
-        })
+        cur.execute("SELECT COUNT(*) FROM bookings WHERE vehicle_id=%s", (v[0],))
+        count = cur.fetchone()[0]
+        util.append({"name": v[1], "count": count})
 
     return render_template(
         "dashboard.html",
@@ -390,8 +394,7 @@ for row in bookings[:8]:
         vehicle_status=vehicle_status,
         month_data=month_data,
         util=util
-    )
-@app.route("/vehicles", methods=["GET", "POST"])
+    )@app.route("/vehicles", methods=["GET", "POST"])
 @login_required
 def vehicles():
     db = get_db()
