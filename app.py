@@ -47,13 +47,13 @@ def get_db():
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS bookings (
-        id SERIAL PRIMARY KEY
+        id SERIAL PRIMARY KEY,
     )
     """)
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS damages (
-        id SERIAL PRIMARY KEY
+        id SERIAL PRIMARY KEY,
     )
     """)
 
@@ -89,34 +89,17 @@ def init_db():
     db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
 
-    try:
-        cur.execute("ALTER TABLE bookings ADD COLUMN vehicle_id INTEGER")
-    except:
-        pass
-
-    try:
-        cur.execute("ALTER TABLE bookings ADD COLUMN customer_id INTEGER")
-    except:
-        pass
-
-    try:
-        cur.execute("ALTER TABLE vehicles ADD COLUMN image_link TEXT")
-    except:
-        pass
-
-    try:
-        cur.execute("ALTER TABLE vehicles ADD COLUMN color_tag TEXT DEFAULT ''")
-    except:
-        pass
-
-    try:
-        cur.execute("ALTER TABLE vehicles ADD COLUMN note TEXT DEFAULT ''")
-    except:
-        pass
-        cur.execute("""CREATE TABLE IF NOT EXISTS users(
+   
+cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS vehicle_id INTEGER")
+cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS customer_id INTEGER")
+cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS image_link TEXT")
+cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS color_tag TEXT DEFAULT ''")
+cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS note TEXT DEFAULT ''")
+        
+   cur.execute("""CREATE TABLE IF NOT EXISTS users(
         id SERIAL PRIMARY KEY, 
         username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
     )""")
 
     cur.execute("""
