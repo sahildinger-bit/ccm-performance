@@ -114,14 +114,14 @@ def init_db():
     except:
         pass
         cur.execute("""CREATE TABLE IF NOT EXISTS users(
-        id SERIAL PRIMARY KEY 
+        id SERIAL PRIMARY KEY, 
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
     )""")
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS vehicles(
-        id SERIAL PRIMARY KEY 
+        id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         plate TEXT NOT NULL,
         daily_price REAL NOT NULL,
@@ -140,7 +140,7 @@ def init_db():
     )""")
 
     cur.execute("""CREATE TABLE IF NOT EXISTS customers(
-        id SERIAL PRIMARY KEY 
+        id SERIAL PRIMARY KEY,
         first_name TEXT NOT NULL,
         last_name TEXT NOT NULL,
         phone TEXT,
@@ -156,7 +156,7 @@ def init_db():
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS bookings(
-        id SERIAL PRIMARY KEY 
+        id SERIAL PRIMARY KEY,
         vehicle_id INTEGER NOT NULL,
         customer_id INTEGER NOT NULL,
         start_date TEXT NOT NULL,
@@ -196,7 +196,7 @@ def init_db():
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS damages(
-        id SERIAL PRIMARY KEY 
+        id SERIAL PRIMARY KEY, 
         vehicle_id INTEGER NOT NULL,
         customer_id INTEGER,
         description TEXT NOT NULL,
