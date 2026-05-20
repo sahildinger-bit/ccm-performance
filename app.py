@@ -215,7 +215,7 @@ def init_db():
         value TEXT NOT NULL
     )""")
 
-    cur.execute("SELECT COUNT(*) FROM users")
+    cur.execute("SELECT COUNT(*) FROM users" )
     if cur.fetchone()[0] == 0:
         cur.execute(
             "INSERT INTO users(username,password) VALUES (%,%)", 
