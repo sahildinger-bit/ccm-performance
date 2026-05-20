@@ -30,21 +30,6 @@ def get_db():
         g.db = psycopg2.connect(DATABASE_URL)
     return g.db
 
-try:
-    cur.execute("ALTER TABLE vehicles ADD COLUMN image_link TEXT")
-except:
-    pass
-
-try:
-    cur.execute("ALTER TABLE vehicles ADD COLUMN color_tag TEXT DEFAULT ''")
-except:
-    pass
-
-try:
-    cur.execute("ALTER TABLE vehicles ADD COLUMN note TEXT DEFAULT ''")
-except:
-    pass
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS vehicles (
         id SERIAL PRIMARY KEY,
@@ -106,7 +91,31 @@ def init_db():
     db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS users(
+    try:
+        cur.execute("ALTER TABLE bookings ADD COLUMN vehicle_id INTEGER")
+    except:
+        pass
+
+    try:
+        cur.execute("ALTER TABLE bookings ADD COLUMN customer_id INTEGER")
+    except:
+        pass
+
+    try:
+        cur.execute("ALTER TABLE vehicles ADD COLUMN image_link TEXT")
+    except:
+        pass
+
+    try:
+        cur.execute("ALTER TABLE vehicles ADD COLUMN color_tag TEXT DEFAULT ''")
+    except:
+        pass
+
+    try:
+        cur.execute("ALTER TABLE vehicles ADD COLUMN note TEXT DEFAULT ''")
+    except:
+        pass
+        cur.execute("""CREATE TABLE IF NOT EXISTS users(
         id SERIAL PRIMARY KEY 
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
