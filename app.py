@@ -615,9 +615,6 @@ def reservations():
     return render_template("reservations.html", title="Reservierungen", items=items, vehicles=vehicles, q=q, status_filter=status_filter)
 
 
-
-
-
 @app.route("/calendar")
 @login_required
 def calendar():
@@ -630,15 +627,15 @@ def calendar():
     vehicles = cur.fetchall()
 
     vehicle_id = request.args.get("vehicle_id")
-
     if not vehicle_id and vehicles:
         vehicle_id = str(vehicles[0]["id"])
 
     selected_vehicle = None
-
     if vehicle_id:
-        cur.execute("SELECT * FROM vehicles WHERE id=%s", (vehicle_id,))
-        selected_vehicle = cur.fetchone()
+        selected_vehicle = cur.execute(
+            "SELECT * FROM vehicles WHERE id=?",
+            (vehicle_id,)
+        ).fetchone()
 
     start = request.args.get("start") or "2026-04-30"
     end = request.args.get("end") or "2026-05-14"
@@ -646,32 +643,12 @@ def calendar():
     start_dt = datetime.strptime(start, "%Y-%m-%d")
     end_dt = datetime.strptime(end, "%Y-%m-%d")
 
-    cur.execute("""
+    bookings = cur.execute("""
         SELECT b.*, c.first_name, c.last_name
         FROM bookings b
         LEFT JOIN customers c ON c.id = b.customer_id
-        WHERE b.vehicle_id=%s
-    """, (vehicle_id,))
-    bookings = cur.fetchall()
-
-    def val(row, keys):
-        for k in keys:
-            try:
-                if row[k]:
-                    return str(row[k])
-            except Exception:
-                pass
-        return ""
-
-    def booked_on(day):
-        for b in bookings:
-            s = val(b, ["start_date", "start", "pickup_date"])
-            e = val(b, ["end_date", "end", "return_date"])
-
-            if s and e and s <= day <= e:
-                return "Gebucht"
-
-        return "Frei"
+        WHERE b.vehicle_id=?
+    """, (vehicle_id,)).fetchall()
 
     days = []
     tag = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
@@ -679,21 +656,20 @@ def calendar():
 
     while d <= end_dt:
         iso = d.strftime("%Y-%m-%d")
+        status = "Frei"
         customer_name = ""
 
         for b in bookings:
-            s = val(b, ["start_date", "start", "pickup_date"])
-            e = val(b, ["end_date", "end", "return_date"])
-
-            if s and e and s <= iso <= e:
-                customer_name = f"{b.get('first_name', '')} {b.get('last_name', '')}".strip()
+            if b["start_date"] <= iso <= b["end_date"]:
+                status = "Gebucht"
+                customer_name = f"{b['first_name']} {b['last_name']}".strip()
                 break
 
         days.append({
             "date": iso,
             "date_de": d.strftime("%d.%m.%Y"),
             "day_name": tag[d.weekday()],
-            "status": booked_on(iso),
+            "status": status,
             "customer_name": customer_name
         })
 
@@ -708,6 +684,7 @@ def calendar():
         start=start,
         end=end
     )
+
 
 
 
