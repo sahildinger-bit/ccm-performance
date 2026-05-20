@@ -372,8 +372,8 @@ for i in range(1,13):
         pct = 0 if max_val == 0 else max(6, int(v / max_val * 100))
         month_data.append({"label": month_names[i-1], "value": round(v,2), "pct": pct})
 
-    util = []
-    for v in vehicle_status:
+util = []
+for v in vehicle_status:
         count = db.execute("SELECT COUNT(*) c FROM bookings WHERE vehicle_id=?", (v["id"],)).fetchone()["c"]
         util.append({"name": v["name"], "count": count})
 
