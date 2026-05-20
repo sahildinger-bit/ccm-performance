@@ -215,8 +215,11 @@ def invoice_no(booking_id):
     return f"CCM-RG-2026-{booking_id:03d}"
 
 def get_setting(key, default=""):
-    row = get_db().execute("SELECT value FROM settings WHERE key=?", (key,)).fetchone()
-    return row["value"] if row else default
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("SELECT value FROM settings WHERE key=%s", (key,))
+    row = cur.fetchone()
+    return row[0] if row else default
 
 def wrap_text(text, max_chars=90):
     words = str(text).split()
