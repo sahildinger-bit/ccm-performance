@@ -1,4 +1,6 @@
 import os
+import psycopg2
+import psycopg2.extras
 import io
 import sqlite3
 import fitz
@@ -24,8 +26,8 @@ app.secret_key = "ccm-ultra-secret-2026"
 
 def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(DB_PATH)
-        g.db.row_factory = sqlite3.Row
+DATABASE_URL = os.environ.get("DATABASE_URL")
+g.db = psycopg2.connect(DATABASE_URL)
     return g.db
 
 @app.teardown_appcontext
