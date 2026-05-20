@@ -492,9 +492,12 @@ def dashboard():
         vehicle_status=vehicle_status,
         month_data=month_data,
         util=util
-    )@app.route("/vehicles", methods=["GET", "POST"])
-@login_required
-def vehicles():
+    
+)
+   
+    @app.route("/vehicles", methods=["GET", "POST"])
+    @login_required
+    def vehicles():
     db = get_db()
     if request.method == "POST":
         db.execute("""
