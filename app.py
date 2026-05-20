@@ -200,10 +200,10 @@ cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS note TEXT DEFAULT ''"
 
     cur.execute("SELECT COUNT(*) FROM users" )
     if cur.fetchone()[0] == 0:
-        cur.execute(
-            "INSERT INTO users(username,password) VALUES (%,%)", 
-            ("admin", "ccm123"))
-
+       cur.execute(
+       "INSERT INTO users(username,password) VALUES (%s,%s)",
+       ("admin", "ccm123")
+)
     cur.execute("SELECT COUNT(*) FROM vehicles")
     if cur.fetchone()[0] == 0:
         vehicles = [
