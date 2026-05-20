@@ -495,7 +495,7 @@ def dashboard():
     
 )
    
-  @app.route("/vehicles", methods=["GET", "POST"])
+@app.route("/vehicles", methods=["GET", "POST"])
 @login_required
 def vehicles():
     db = get_db()
