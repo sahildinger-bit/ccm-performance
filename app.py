@@ -356,7 +356,7 @@ bookings = fetch_bookings_full()
 revenue = 0
 profit = 0
 recent = []
-for row in bookings[:8]:
+    for row in bookings[:8]:
         calc = calculate_price(row)
         revenue += calc["total"]
         profit += calc["profit"]
