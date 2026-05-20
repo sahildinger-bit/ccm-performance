@@ -96,7 +96,7 @@ def init_db():
     cur.execute("""CREATE TABLE IF NOT EXISTS users(
         id SERIAL PRIMARY KEY, 
         username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
+        password TEXT NOT NULL
     )""")
 
     cur.execute("""CREATE TABLE IF NOT EXISTS vehicles(
