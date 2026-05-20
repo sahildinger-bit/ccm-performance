@@ -26,8 +26,8 @@ app.secret_key = "ccm-ultra-secret-2026"
 
 def get_db():
     if "db" not in g:
-DATABASE_URL = os.environ.get("DATABASE_URL")
-g.db = psycopg2.connect(DATABASE_URL)
+        DATABASE_URL = os.environ.get("DATABASE_URL")
+        g.db = psycopg2.connect(DATABASE_URL)
     return g.db
 
 @app.teardown_appcontext
@@ -38,7 +38,7 @@ def close_db(exception=None):
 
 
 def sync_default_vehicle_prices():
-    db = sqlite3.connect(DB_PATH)
+    db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
     updates = [
         ("AC CM 6660", 500, 900, 1000, 4500, 2000, 3000),
@@ -58,7 +58,7 @@ def sync_default_vehicle_prices():
     db.close()
 
 def init_db():
-    db = sqlite3.connect(DB_PATH)
+    db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
 
     cur.execute("""CREATE TABLE IF NOT EXISTS users(
