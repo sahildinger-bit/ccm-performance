@@ -667,16 +667,29 @@ def calendar():
     tag = ["Mo","Di","Mi","Do","Fr","Sa","So"]
     d = start_dt
 
-    while d <= end_dt:
-        iso = d.strftime("%Y-%m-%d")
-        days.append({
-            "date": iso,
-            "date_de": d.strftime("%d.%m.%Y"),
-            "day_name": tag[d.weekday()],
-            "status": booked_on(iso),
-            "customer_name": ""
-        })
-        d += timedelta(days=1)
+while d <= end_dt:
+    iso = d.strftime("%Y-%m-%d")
+
+    customer_name = ""
+
+    for b in bookings:
+        s = val(b, ["start_date", "start", "pickup_date"])
+        e = val(b, ["end_date", "end", "return_date"])
+
+        if s and e and s <= iso <= e:
+            customer_name = f"{b.get('first_name', '')} {b.get('last_name', '')}".strip()
+            break
+
+    days.append({
+        "date": iso,
+        "date_de": d.strftime("%d.%m.%Y"),
+        "day_name": tag[d.weekday()],
+        "status": booked_on(iso),
+        "customer_name": customer_name
+    })
+
+    d += timedelta(days=1)        
+      
 
     return render_template("calendar.html", title="Kalender", vehicles=vehicles, selected_vehicle=selected_vehicle, days=days, start=start, end=end)
 
