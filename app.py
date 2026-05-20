@@ -88,18 +88,19 @@ def sync_default_vehicle_prices():
 def init_db():
     db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
-    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS vehicle_id INTEGER")
-    cur.execute("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS customer_id INTEGER")
-    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS image_link TEXT")
-    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS color_tag TEXT DEFAULT ''")
-    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS note TEXT DEFAULT ''")
-    cur.execute("""CREATE TABLE IF NOT EXISTS users(
-        id SERIAL PRIMARY KEY, 
+
+    # USERS
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id SERIAL PRIMARY KEY,
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
-    )""")
+    )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS vehicles(
+    # VEHICLES
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS vehicles(
         id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         plate TEXT NOT NULL,
@@ -116,9 +117,12 @@ def init_db():
         image_link TEXT,
         color_tag TEXT DEFAULT '',
         note TEXT DEFAULT ''
-    )""")
+    )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS customers(
+    # CUSTOMERS
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS customers(
         id SERIAL PRIMARY KEY,
         first_name TEXT NOT NULL,
         last_name TEXT NOT NULL,
@@ -131,9 +135,12 @@ def init_db():
         license_link TEXT,
         id_link TEXT,
         note TEXT
-    )""")
+    )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS bookings(
+    # BOOKINGS
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS bookings(
         id SERIAL PRIMARY KEY,
         vehicle_id INTEGER NOT NULL,
         customer_id INTEGER NOT NULL,
@@ -153,9 +160,12 @@ def init_db():
         created_at TEXT DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(vehicle_id) REFERENCES vehicles(id),
         FOREIGN KEY(customer_id) REFERENCES customers(id)
-    )""")
+    )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS reservations(
+    # RESERVATIONS
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS reservations(
         id SERIAL PRIMARY KEY,
         customer_name TEXT NOT NULL,
         phone TEXT,
@@ -169,10 +179,13 @@ def init_db():
         source TEXT DEFAULT 'Telefon / WhatsApp',
         note TEXT,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
-    )""")
+    )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS damages(
-        id SERIAL PRIMARY KEY, 
+    # DAMAGES
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS damages(
+        id SERIAL PRIMARY KEY,
         vehicle_id INTEGER NOT NULL,
         customer_id INTEGER,
         description TEXT NOT NULL,
@@ -183,50 +196,60 @@ def init_db():
         note TEXT,
         FOREIGN KEY(vehicle_id) REFERENCES vehicles(id),
         FOREIGN KEY(customer_id) REFERENCES customers(id)
-    )""")
+    )
+    """)
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS settings(
+    # SETTINGS
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS settings(
         key TEXT PRIMARY KEY,
         value TEXT NOT NULL
-    )""")
+    )
+    """)
 
-    cur.execute("SELECT COUNT(*) FROM users" )
+    # DEFAULT ADMIN
+    cur.execute("SELECT COUNT(*) FROM users")
     if cur.fetchone()[0] == 0:
-       cur.execute(
-       "INSERT INTO users(username,password) VALUES (%s,%s)",
-       ("admin", "ccm123")
-)
+        cur.execute(
+            "INSERT INTO users(username, password) VALUES (%s, %s)",
+            ("admin", "ccm123")
+        )
+
+    # DEFAULT VEHICLES
     cur.execute("SELECT COUNT(*) FROM vehicles")
     if cur.fetchone()[0] == 0:
         vehicles = [
             ("Audi RS6 Performance (blue)", "AC CM 6660", 500, 900, 1000, 4500, 2000, 3000, 150, 350, 1000, "Frei", "", "blue", ""),
-            ("Audi RS6 Performance (black)", "AC CM 6606", 500, 900, 1000, 4500, 2000, 3000, 150, 350, 1000, "Frei", "", "black", ""),
+            ("Audi RS6 Performance (black)", "AC CM 6666", 500, 900, 1000, 4500, 2000, 3000, 150, 350, 1000, "Frei", "", "black", ""),
             ("Audi RS3 Sportback", "AC CM 3330", 250, 600, 700, 2699, 1000, 2000, 150, 350, 1000, "Frei", "", "", ""),
-            ("Audi RSQ8 (blue)", "AC CM 8808", 300, 800, 900, 4000, 2000, 3000, 150, 350, 1000, "Frei", "", "blue", ""),
+            ("Audi RSQ8 (blue)", "AC CM 8880", 300, 800, 900, 4000, 2000, 3000, 150, 350, 1000, "Frei", "", "blue", ""),
             ("VW GTI", "AC CM 8080", 95, 280, 300, 1500, 500, 1000, 150, 350, 1000, "Frei", "", "", ""),
-            ("VW GTI Clubsport", "AC CM 8081", 110, 299, 319, 1800, 500, 1000, 150, 350, 1000, "Frei", "", "", ""),
+            ("VW GTI Clubsport", "AC CM 8081", 110, 299, 319, 1800, 500, 1000, 150, 350, 1000, "Frei", "", "", "")
         ]
+
         cur.executemany("""
-            INSERT INTO vehicles(
-                name, plate, daily_price, four_day_price, weekend_price, monthly_price,
-                deposit_short, deposit_month, km_day, km_offer, km_month, status, image_link, color_tag, note
-           ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            """, vehicles)
+        INSERT INTO vehicles(
+            name,
+            plate,
+            daily_price,
+            four_day_price,
+            weekend_price,
+            monthly_price,
+            deposit_short,
+            deposit_month,
+            km_day,
+            km_offer,
+            km_month,
+            status,
+            image_link,
+            color_tag,
+            note
+        )
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """, vehicles)
 
-    defaults = {
-        "company_name": "CCM Performance – Luxury Rental Cars",
-        "company_address": "Strangenhäuschen 19A, 52070 Aachen",
-        "company_phone": "0174 6767616",
-        "base_contract_url": "https://ccm-vertrag.de",
-        "processing_fee": "25",
-        "self_participation": "2500",
-        "minimum_age": "21",
-        "min_license_years": "2",
-        "allowed_area": "vereinbarten Gebiet"
-    }
-    for k, v in defaults.items():
-        cur.execute("INSERT OR IGNORE INTO settings(key,value) VALUES(?,?)", (k, v))
 
+    db.close()
     db.commit()
     db.close()
 
