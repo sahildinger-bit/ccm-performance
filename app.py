@@ -356,7 +356,12 @@ def login():
     if request.method == "POST":
         u = request.form.get("username", "").strip()
         p = request.form.get("password", "").strip()
-        row = get_db().execute("SELECT * FROM users WHERE username=? AND password=?", (u, p)).fetchone()
+        
+        db = get_db()
+        cur = db.cursor()
+        
+        cur.execute("SELECT * FROM users WHERE username=%s AND password=%s", (u, p))
+        rows = cur.fetchone()        
         if row:
             session["user_id"] = row["id"]
             session["username"] = row["username"]
