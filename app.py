@@ -88,7 +88,21 @@ def sync_default_vehicle_prices():
 def init_db():
     db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
-
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS daily_price REAL DEFAULT 0")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS four_day_price REAL DEFAULT 0")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS weekend_price REAL DEFAULT 0")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS monthly_price REAL DEFAULT 0")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS deposit_short REAL DEFAULT 0")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS deposit_month REAL DEFAULT 0")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS km_day INTEGER DEFAULT 150")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS km_offer INTEGER DEFAULT 350")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS km_month INTEGER DEFAULT 1000")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'Frei'")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS image_link TEXT")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS color_tag TEXT DEFAULT ''")
+    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS note TEXT DEFAULT ''")   
+    
+    
     # USERS
     cur.execute("""
     CREATE TABLE IF NOT EXISTS users(
