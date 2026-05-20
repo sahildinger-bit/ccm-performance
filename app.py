@@ -25,12 +25,44 @@ app = Flask(__name__)
 app.secret_key = "ccm-ultra-secret-2026"
 
 def get_db():
-    if "db" not in g:
+    if 'db' not in g:
         DATABASE_URL = os.environ.get("DATABASE_URL")
         g.db = psycopg2.connect(DATABASE_URL)
     return g.db
 
-@app.teardown_appcontext
+
+def init_db():
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS vehicles (
+        id SERIAL PRIMARY KEY,
+        name TEXT,
+        plate TEXT
+    )
+    """)
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS customers (
+        id SERIAL PRIMARY KEY,
+        name TEXT
+    )
+    """)
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY
+    )
+    """)
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS damages (
+        id SERIAL PRIMARY KEY
+    )
+    """)
+
+    db.commit()@app.teardown_appcontext
 def close_db(exception=None):
     db = g.pop("db", None)
     if db is not None:
