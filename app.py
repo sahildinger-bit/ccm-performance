@@ -88,12 +88,12 @@ def sync_default_vehicle_prices():
 def init_db():
     db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
-    cur.execute("ALTER TABLE vehicles ADD COLUMN IF NOT EXISTS daily_price REAL DEFAULT 0")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS first_name TEXT DEFAULT ''")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS last_name TEXT DEFAULT ''")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS phone TEXT")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS email TEXT")
-    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS address TEXT")    
+    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS birth_date TEXT")
+    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS license_no TEXT")
+    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS license_checked TEXT DEFAULT 'Nein'")
+    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS license_link TEXT")
+    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS id_link TEXT")
+    cur.execute("ALTER TABLE customers ADD COLUMN IF NOT EXISTS note TEXT")    
     
     # USERS
     cur.execute("""
