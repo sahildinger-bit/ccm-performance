@@ -31,9 +31,20 @@ def get_db():
     return g.db
 
 
+
 def init_db():
-    db = get_db()
+    db = psycopg2.connect(os.environ.get("DATABASE_URL"))
     cur = db.cursor()
+
+    try:
+        cur.execute("ALTER TABLE bookings ADD COLUMN vehicle_id INTEGER")
+    except:
+        pass
+
+    try:
+        cur.execute("ALTER TABLE bookings ADD COLUMN customer_id INTEGER")
+    except:
+        pass
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS vehicles (
