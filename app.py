@@ -210,8 +210,8 @@ def init_db():
             INSERT INTO vehicles(
                 name, plate, daily_price, four_day_price, weekend_price, monthly_price,
                 deposit_short, deposit_month, km_day, km_offer, km_month, status, image_link, color_tag, note
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        """, vehicles)
+           ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            """, vehicles)
 
     defaults = {
         "company_name": "CCM Performance – Luxury Rental Cars",
