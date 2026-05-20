@@ -498,9 +498,9 @@ def dashboard():
     @app.route("/vehicles", methods=["GET", "POST"])
     @login_required
     def vehicles():
-    db = get_db()
-    if request.method == "POST":
-        db.execute("""
+        db = get_db()
+        if request.method == "POST":
+            db.execute("""
             INSERT INTO vehicles(
                 name, plate, daily_price, four_day_price, weekend_price, monthly_price,
                 deposit_short, deposit_month, km_day, km_offer, km_month, status, image_link, color_tag, note
