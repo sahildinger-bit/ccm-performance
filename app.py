@@ -27,37 +27,12 @@ app.secret_key = "ccm-ultra-secret-2026"
 def get_db():
     if 'db' not in g:
         DATABASE_URL = os.environ.get("DATABASE_URL")
-        g.db = psycopg2.connect(DATABASE_URL)
+        g.db = psycopg2.connect(
+            DATABASE_URL,
+            cursor_factory=psycopg2.extras.DictCursor
+        )
     return g.db
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS vehicles (
-        id SERIAL PRIMARY KEY,
-        name TEXT,
-        plate TEXT
-    )
-    """)
-
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS customers (
-        id SERIAL PRIMARY KEY,
-        name TEXT
-    )
-    """)
-
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS bookings (
-        id SERIAL PRIMARY KEY,
-    )
-    """)
-
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS damages (
-        id SERIAL PRIMARY KEY,
-    )
-    """)
-
-    db.commit()
 @app.teardown_appcontext
 def close_db(exception=None):
     db = g.pop("db", None)
@@ -79,8 +54,8 @@ def sync_default_vehicle_prices():
     for plate, daily_price, four_day_price, weekend_price, monthly_price, deposit_short, deposit_month in updates:
         cur.execute("""
             UPDATE vehicles
-            SET daily_price=?, four_day_price=?, weekend_price=?, monthly_price=?, deposit_short=?, deposit_month=?
-            WHERE plate=?
+            SET daily_price=%s, four_day_price=%s, weekend_price=%s, monthly_price=%s, deposit_short=%s, deposit_month=%s
+            WHERE plate=%s
         """, (daily_price, four_day_price, weekend_price, monthly_price, deposit_short, deposit_month, plate))
     db.commit()
     db.close()
@@ -413,7 +388,7 @@ def login():
         cur = db.cursor()
         
         cur.execute("SELECT * FROM users WHERE username=%s AND password=%s", (u, p))
-        rows = cur.fetchone()        
+        row = cur.fetchone()        
         if row:
             session["user_id"] = row["id"]
             session["username"] = row["username"]
@@ -494,7 +469,7 @@ def dashboard():
         util=util
     
 )
-   
+
 @app.route("/vehicles", methods=["GET", "POST"])
 @login_required
 def vehicles():
@@ -1109,5 +1084,4 @@ def mobile_bookings():
 with app.app_context():
     init_db()
 if __name__ == "__main__":
-    app.run(debug=True)    
-
+    app.run(debug=True)   
