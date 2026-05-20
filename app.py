@@ -367,7 +367,7 @@ month_vals = monthly_revenue(bookings)
 max_val = max(month_vals.values()) if month_vals else 0
 month_data = []
 month_names = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"]
-    for i in range(1,13):
+for i in range(1,13):
         v = month_vals[i]
         pct = 0 if max_val == 0 else max(6, int(v / max_val * 100))
         month_data.append({"label": month_names[i-1], "value": round(v,2), "pct": pct})
