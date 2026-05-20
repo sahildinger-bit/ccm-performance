@@ -332,13 +332,27 @@ def logout():
 @login_required
 def dashboard():
     db = get_db()
-    totals = {
-        "vehicles": db.execute("SELECT COUNT(*) c FROM vehicles").fetchone()["c"],
-        "customers": db.execute("SELECT COUNT(*) c FROM customers").fetchone()["c"],
-        "bookings": db.execute("SELECT COUNT(*) c FROM bookings").fetchone()["c"],
-        "damages": db.execute("SELECT COUNT(*) c FROM damages").fetchone()["c"],
-    }
-    bookings = fetch_bookings_full()
+cur = db.cursor()
+
+cur.execute("SELECT COUNT(*) FROM vehicles")
+vehicles_count = cur.fetchone()[0]
+
+cur.execute("SELECT COUNT(*) FROM customers")
+customers_count = cur.fetchone()[0]
+
+cur.execute("SELECT COUNT(*) FROM bookings")
+bookings_count = cur.fetchone()[0]
+
+cur.execute("SELECT COUNT(*) FROM damages")
+damages_count = cur.fetchone()[0]
+
+totals = {
+    "vehicles": vehicles_count,
+    "customers": customers_count,
+    "bookings": bookings_count,
+    "damages": damages_count,
+}
+bookings = fetch_bookings_full()
     revenue = 0
     profit = 0
     recent = []
