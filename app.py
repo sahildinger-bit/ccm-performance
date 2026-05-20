@@ -690,7 +690,6 @@ while d <= end_dt:
 
     d += timedelta(days=1)        
       
-
     return render_template("calendar.html", title="Kalender", vehicles=vehicles, selected_vehicle=selected_vehicle, days=days, start=start, end=end)
 
 
