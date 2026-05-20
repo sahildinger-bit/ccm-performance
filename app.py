@@ -362,24 +362,35 @@ for row in bookings[:8]:
     profit += calc["profit"]
     recent.append({"row": row, "calc": calc, "contract_no": contract_no(row["id"])})
 
-vehicle_status = db.execute("SELECT * FROM vehicles ORDER BY name").fetchall()
-month_vals = monthly_revenue(bookings)
-max_val = max(month_vals.values()) if month_vals else 0
-month_data = []
-month_names = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"]
-for i in range(1,13):
-        v = month_vals[i]
-        pct = 0 if max_val == 0 else max(6, int(v / max_val * 100))
-        month_data.append({"label": month_names[i-1], "value": round(v,2), "pct": pct})
+ def dashboard():
+    db = get_db()
 
-util = []
-for v in vehicle_status:
-        count = db.execute("SELECT COUNT(*) c FROM bookings WHERE vehicle_id=?", (v["id"],)).fetchone()["c"]
-        util.append({"name": v["name"], "count": count})
+    ...
 
-    
-return render_template("dashboard.html", title="Dashboard", totals=totals, revenue=revenue, profit=profit, recent=recent, vehicle_status=vehicle_status, month_data=month_data, util=util)
+    util = []
 
+    for v in vehicle_status:
+        count = db.execute(
+            "SELECT COUNT(*) c FROM bookings WHERE vehicle_id=?",
+            (v["id"],)
+        ).fetchone()["c"]
+
+        util.append({
+            "name": v["name"],
+            "count": count
+        })
+
+    return render_template(
+        "dashboard.html",
+        title="Dashboard",
+        totals=totals,
+        revenue=revenue,
+        profit=profit,
+        recent=recent,
+        vehicle_status=vehicle_status,
+        month_data=month_data,
+        util=util
+    )
 @app.route("/vehicles", methods=["GET", "POST"])
 @login_required
 def vehicles():
