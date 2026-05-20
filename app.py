@@ -99,8 +99,7 @@ def init_db():
         password TEXT NOT NULL,
     )""")
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS vehicles(
+    cur.execute("""CREATE TABLE IF NOT EXISTS vehicles(
         id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
         plate TEXT NOT NULL,
@@ -134,8 +133,7 @@ def init_db():
         note TEXT
     )""")
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS bookings(
+    cur.execute("""CREATE TABLE IF NOT EXISTS bookings(
         id SERIAL PRIMARY KEY,
         vehicle_id INTEGER NOT NULL,
         customer_id INTEGER NOT NULL,
@@ -157,8 +155,7 @@ def init_db():
         FOREIGN KEY(customer_id) REFERENCES customers(id)
     )""")
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS reservations(
+    cur.execute("""CREATE TABLE IF NOT EXISTS reservations(
         id SERIAL PRIMARY KEY,
         customer_name TEXT NOT NULL,
         phone TEXT,
@@ -174,8 +171,7 @@ def init_db():
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
     )""")
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS damages(
+    cur.execute("""CREATE TABLE IF NOT EXISTS damages(
         id SERIAL PRIMARY KEY, 
         vehicle_id INTEGER NOT NULL,
         customer_id INTEGER,
@@ -189,8 +185,7 @@ def init_db():
         FOREIGN KEY(customer_id) REFERENCES customers(id)
     )""")
 
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS settings(
+    cur.execute("""CREATE TABLE IF NOT EXISTS settings(
         key TEXT PRIMARY KEY,
         value TEXT NOT NULL
     )""")
