@@ -377,7 +377,8 @@ for v in vehicle_status:
         count = db.execute("SELECT COUNT(*) c FROM bookings WHERE vehicle_id=?", (v["id"],)).fetchone()["c"]
         util.append({"name": v["name"], "count": count})
 
-    return render_template("dashboard.html", title="Dashboard", totals=totals, revenue=revenue, profit=profit, recent=recent, vehicle_status=vehicle_status, month_data=month_data, util=util)
+    
+return render_template("dashboard.html", title="Dashboard", totals=totals, revenue=revenue, profit=profit, recent=recent, vehicle_status=vehicle_status, month_data=month_data, util=util)
 
 @app.route("/vehicles", methods=["GET", "POST"])
 @login_required
