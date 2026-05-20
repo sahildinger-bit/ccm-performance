@@ -62,7 +62,10 @@ def init_db():
     )
     """)
 
-    db.commit()@app.teardown_appcontext
+    db.commit()
+with app.app_context():
+    init_db()
+@app.teardown_appcontext
 def close_db(exception=None):
     db = g.pop("db", None)
     if db is not None:
