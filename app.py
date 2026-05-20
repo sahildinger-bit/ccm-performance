@@ -979,6 +979,8 @@ def mobile_bookings():
     """).fetchall()
 
     return render_template("mobile_bookings.html", bookings=bookings)
-if __name__ == "__main__":
+
+with app.app_context():
     init_db()
+if __name__ == "__main__":
     app.run(debug=True)
