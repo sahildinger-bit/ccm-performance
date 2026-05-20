@@ -262,9 +262,8 @@ def init_db():
         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, vehicles)
 
-
-    db.close()
     db.commit()
+    cur.close()
     db.close()
 
 def login_required(fn):
